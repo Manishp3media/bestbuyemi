@@ -349,6 +349,19 @@
                                 </ul>
                             </li>
                         @endif
+
+
+                        @php($categoryIndex=0)
+                        @foreach($categories as $category)
+                            @php($categoryIndex++)
+                            @if($categoryIndex < 4)
+                                <li class="nav-item dropdown d-none d-md-block {{request()->is('/')?'active':''}}">
+                                    <a <?php if ($category->childes->count() > 0) echo "" ?> class="nav-link" href="{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}">{{$category['name']}}</a>
+                                </li>
+                            @endif
+                        @endforeach
+
+
                         @php($discount_product = App\Models\Product::with(['reviews'])->active()->where('discount', '!=', 0)->count())
                         @if ($discount_product>0)
                             <li class="nav-item dropdown {{request()->is('/')?'active':''}}">

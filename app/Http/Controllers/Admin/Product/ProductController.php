@@ -532,6 +532,25 @@ class ProductController extends BaseController
         return back();
     }
 
+    public function getNewBulkImportView(): View
+    {
+        return view(Product::NEW_BULK_IMPORT[VIEW]);
+    }
+
+    public function importNewBulkProduct(Request $request, ProductService $service): RedirectResponse
+    {
+        $dataArray = $service->getNewImportBulkProductData(request: $request, addedBy: 'admin');
+        // dd($dataArray);
+        if (!$dataArray['status']) {
+            Toastr::error($dataArray['message']);
+            return back();
+        }
+
+        $this->productRepo->addArray(data: $dataArray['products']);
+        Toastr::success($dataArray['message']);
+        return back();
+    }
+
     public function updatedProductList(Request $request): View
     {
         $filters = [

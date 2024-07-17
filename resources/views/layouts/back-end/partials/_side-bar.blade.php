@@ -332,16 +332,17 @@
                                         class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{translate('product_Attribute_Setup')}}</span>
                                 </a>
                             </li>
-                            <li class="navbar-vertical-aside-has-menu {{(Request::is('admin/products/'.Product::LIST[URI].'/in-house') || Request::is('admin/products/'.Product::BULK_IMPORT[URI]) || (Request::is('admin/products/'.Product::ADD[URI])) || (Request::is('admin/products/'.Product::VIEW[URI].'/in-house/*')) || (Request::is('admin/products/'.Product::BARCODE_GENERATE[URI].'/*'))|| (Request::is('admin/products/'.Product::UPDATE[URI].'/*') && request()->has('product-gallery')))?'active':''}}">
+                            <li class="navbar-vertical-aside-has-menu {{(Request::is('admin/products/'.Product::LIST[URI].'/in-house') || Request::is('admin/products/'.Product::BULK_IMPORT[URI]) || Request::is('admin/products/'.Product::NEW_BULK_IMPORT[URI]) || (Request::is('admin/products/'.Product::ADD[URI])) || (Request::is('admin/products/'.Product::VIEW[URI].'/in-house/*')) || (Request::is('admin/products/'.Product::BARCODE_GENERATE[URI].'/*'))|| (Request::is('admin/products/'.Product::UPDATE[URI].'/*') && request()->has('product-gallery')))?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                    href="javascript:" title="{{translate('in-House_Products')}}">
                                     <i class="tio-shop nav-icon"></i>
                                     <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                        <span class="text-truncate">{{translate('in-house_Products')}}</span>
+                                        <span class="text-truncate">{{translate('Products')}}</span>
+                                        {{-- <span class="text-truncate">{{translate('in-house_Products')}}</span> --}}
                                     </span>
                                 </a>
                                 <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
-                                    style="display: {{(Request::is('admin/products/'.Product::ADD[URI].'/in-house') || (Request::is('admin/products/'.Product::LIST[URI].'/in-house')) || (Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::STOCK_LIMIT[URI].'/in-house')) || (Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::BULK_IMPORT[URI])) || (Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::ADD[URI])) || (Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::VIEW[URI].'/in-house/*')) || (Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::BARCODE_GENERATE[URI].'/*'))||(Request::is('admin/products/'.Product::UPDATE[URI].'/*') && request()->has('product-gallery')))?'block':''}}">
+                                    style="display: {{(Request::is('admin/products/'.Product::ADD[URI].'/in-house') || (Request::is('admin/products/'.Product::LIST[URI].'/in-house')) || (Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::STOCK_LIMIT[URI].'/in-house')) || (Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::BULK_IMPORT[URI])) || (Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::NEW_BULK_IMPORT[URI])) || (Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::ADD[URI])) || (Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::VIEW[URI].'/in-house/*')) || (Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::BARCODE_GENERATE[URI].'/*'))||(Request::is('admin/products/'.Product::UPDATE[URI].'/*') && request()->has('product-gallery')))?'block':''}}">
                                     <li class="nav-item {{(Request::is('admin/products/'.Product::LIST[URI].'/in-house') || (Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::VIEW[URI].'/in-house/*')) || (Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::STOCK_LIMIT[URI].'/in-house')) || (Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::BARCODE_GENERATE[URI].'/*')))?'active':''}}">
                                         <a class="nav-link " href="{{route('admin.products.list',['in-house'])}}"
                                            title="{{translate('Product_List')}}">
@@ -367,9 +368,16 @@
                                             <span class="text-truncate">{{translate('bulk_import')}}</span>
                                         </a>
                                     </li>
+                                    <li class="nav-item {{Request::is('admin/products/'.Product::NEW_BULK_IMPORT[URI])?'active':''}}">
+                                        <a class="nav-link " href="{{route('admin.products.new-bulk-import')}}"
+                                           title="{{translate('new_bulk_import')}}">
+                                            <span class="tio-circle nav-indicator-icon"></span>
+                                            <span class="text-truncate">{{translate('new_bulk_import')}}</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
-                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/products/'.Product::LIST[URI].'/vendor*')||(Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::VIEW[URI].'/vendor/*'))||Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::UPDATED_PRODUCT_LIST[URI])?'active':''}}">
+                            {{-- <li class="navbar-vertical-aside-has-menu {{Request::is('admin/products/'.Product::LIST[URI].'/vendor*')||(Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::VIEW[URI].'/vendor/*'))||Request::is('admin/products/'.\App\Enums\ViewPaths\Admin\Product::UPDATED_PRODUCT_LIST[URI])?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                    href="javascript:"
                                    title="{{translate('vendor_Products')}}">
@@ -430,7 +438,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> --}}
                             <li class="navbar-vertical-aside-has-menu {{Request::is('admin/products/'.Product::PRODUCT_GALLERY[URI])?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link"
                                    href="{{route('admin.products.product-gallery')}}"
@@ -783,7 +791,7 @@
                                 </ul>
                             </li>
 
-                            <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/vendors*') || Request::is('admin/vendors/withdraw-method/*') || (Request::is('admin/orders/details/*') && request()->has('vendor-order-list')) ? 'active' : '' }}">
+                            {{-- <li class="navbar-vertical-aside-has-menu {{ Request::is('admin/vendors*') || Request::is('admin/vendors/withdraw-method/*') || (Request::is('admin/orders/details/*') && request()->has('vendor-order-list')) ? 'active' : '' }}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                    href="javascript:" title="{{translate('vendors')}}">
                                     <i class="tio-users-switch nav-icon"></i>
@@ -824,7 +832,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> --}}
 
                             <li class="navbar-vertical-aside-has-menu {{Request::is('admin/delivery-man*')?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle text-capitalize"

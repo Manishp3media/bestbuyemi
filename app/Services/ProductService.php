@@ -4,8 +4,14 @@ namespace App\Services;
 
 use App\Enums\UserRole;
 use App\Enums\ViewPaths\Admin\Product;
+use App\Models\Attribute;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Color;
 use App\Traits\FileManagerTrait;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use phpDocumentor\Reflection\Types\Boolean;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -600,6 +606,175 @@ class ProductService
                 'colors' => json_encode([]),
                 'attributes' => json_encode([]),
                 'choice_options' => json_encode([]),
+                'variation' => json_encode([]),
+                'featured_status' => 0,
+                'added_by' => $addedBy,
+                'user_id' => $addedBy == 'admin' ? auth('admin')->id() : auth('seller')->id(),
+                'created_at' => now(),
+            ];
+        }
+
+        return [
+            'status' => true,
+            'message' => count($products) . ' - ' . translate('products_imported_successfully'),
+            'products' => $products
+        ];
+    }
+
+    public function getNewImportBulkProductData(object $request, string $addedBy): array
+    {
+        try {
+            $collections = (new FastExcel)->import($request->file('products_file'));
+        } catch (\Exception $exception) {
+            return [
+                'status' => false,
+                'message' => translate('you_have_uploaded_a_wrong_format_file') . ',' . translate('please_upload_the_right_file'),
+                'products' => []
+            ];
+        }
+
+        $columnKey = [
+            'product_name',
+            'category_name',
+            'sub_category_name',
+            'brand_name',
+            'product_description',
+            'option_name_1',
+            'option_value_1',
+            'option_name_2',
+            'option_value_2',
+            'option_name_3',
+            'option_value_3',
+            'option_name_4',
+            'option_value_4',
+            'origin',
+            'weight',
+            'hsn_sac_code',
+            'sku',
+            'minimum_order_qty',
+            'product_price',
+            'discount_type',
+            'discount',
+            'tax',
+            'meta_title',
+            'meta_description',
+            'thumbnail',
+            'image_url_1',
+            'image_url_2',
+            'image_url_3',
+            'image_url_4',
+            'youtube_video_code1',
+            'youtube_video_code2'
+        ];
+
+        $skip = ['youtube_video_url', 'product_description', 'thumbnail'];
+
+        if (count($collections) <= 0) {
+            return [
+                'status' => false,
+                'message' => translate('you_need_to_upload_with_proper_data'),
+                'products' => []
+            ];
+        }
+        $products = [];
+        foreach ($collections as $collection) {
+            $choiceOptions = [];
+            $attribute_ids = [];
+            $variations = [];
+            foreach ($collection as $key => $value) {
+                if ($key != "" && !in_array($key, $columnKey)) {
+                    return [
+                        'status' => false,
+                        'message' => translate('Please_upload_the_correct_format_file'),
+                        'products' => []
+                    ];
+                }
+
+                // if ($key != "" && $value === "" && !in_array($key, $skip)) {
+                //     return [
+                //         'status' => false,
+                //         'message' => translate('Please fill ' . $key . ' fields'),
+                //         'products' => []
+                //     ];
+                // }
+            }
+            $thumbnailFileName = Null;
+            if($collection['thumbnail'])
+            {
+                $img_url = $collection['thumbnail'];
+
+                // Parse the URL to get the file name and extension
+                $path = parse_url($img_url, PHP_URL_PATH);
+                $thumbnailFileName = basename($path);
+
+                // Make an HTTP request to get the image
+                $response = Http::get($img_url);
+
+                // Get the image contents
+                $imageContents = $response->body();
+                $filePath = 'public/product/thumbnail/'.$thumbnailFileName;
+                Storage::put($filePath, $imageContents);
+            }
+
+            for ($i = 1; $i <= 4; $i++) {
+                $optionNameKey = 'option_name_' . $i;
+                $optionValueKey = 'option_value_' . $i;
+
+                if (isset($collection[$optionNameKey]) && $collection[$optionNameKey] !== "") {
+                    // Split option values by comma and trim each value
+                    $options = array_map('trim', explode(',', $collection[$optionValueKey]));
+
+                    $attr = Attribute::where('name', $collection[$optionNameKey])->first();
+                    $attribute_ids[] = $attr->id;
+
+                    $choiceOptions[] = [
+                        'name' => 'choice_'.$i,
+                        'title' => $collection[$optionNameKey],
+                        'options' => $options,
+                    ];
+                }
+            }
+
+            // $thumbnail = explode('/', $collection['thumbnail']);
+            $new_category = Category::where(DB::raw('LOWER(name)'), strtolower($collection['category_name']))->first();
+
+            $new_sub_category = Category::where(DB::raw('LOWER(name)'), strtolower($collection['sub_category_name']))->where('parent_id', $new_category->id)->first();
+            $new_brand = Brand::where(DB::raw('LOWER(name)'), strtolower($collection['brand_name']))->first();
+
+            $products[] = [
+                'name' => $collection['product_name'],
+                'slug' => Str::slug($collection['product_name'], '-') . '-' . Str::random(6),
+                // 'category_ids' => json_encode([['id' => (string)$collection['category_id'], 'position' => 1], ['id' => (string)$collection['sub_category_id'], 'position' => 2], ['id' => (string)$collection['sub_sub_category_id'], 'position' => 3]]),
+                'category_id' => $new_category->id,
+                'sub_category_id' => $new_sub_category->id,
+                // 'sub_sub_category_id' => $collection['sub_sub_category_id'],
+                'brand_id' => $new_brand->id,
+                'code' => $collection['sku'] ?? Null,
+                'weight' => $collection['weight'] ?? Null,
+                'origin' => $collection['origin'] ?? Null,
+                'hsn_sac_code' => $collection['hsn_sac_code'] ?? Null,
+                'unit' => $collection['unit'] ?? 'pc',
+                'minimum_order_qty' => $collection['minimum_order_qty'],
+                // 'refundable' => $collection['refundable'],
+                'unit_price' => $collection['product_price'] ,
+                'purchase_price' => 0,
+                'tax' => $collection['tax'] ?? Null,
+                'discount' => $collection['discount'],
+                'discount_type' => $collection['discount_type'],
+                'shipping_cost' => 0,
+                'current_stock' => $collection['current_stock'] ?? 1,
+                'details' => $collection['product_description'],
+                'meta_title' => $collection['meta_title'],
+                'meta_description' => $collection['meta_description'],
+                'video_provider' => 'youtube',
+                'video_url' => $collection['youtube_video_code1'],
+                'images' => json_encode(['def.png']),
+                'thumbnail' => $thumbnailFileName,
+                'status' => 0,
+                'request_status' => 1,
+                'colors' => json_encode([]),
+                'attributes' => json_encode($attribute_ids),
+                'choice_options' => json_encode($choiceOptions),
                 'variation' => json_encode([]),
                 'featured_status' => 0,
                 'added_by' => $addedBy,

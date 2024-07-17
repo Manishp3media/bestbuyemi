@@ -254,6 +254,11 @@
                                         </div>
                                     @endforeach
 
+
+                                    <div class="text-dark">
+                                            <p> @isset($product['origin'])     <b>Origin :</b> <span class="badge badge-primary">{{ ucfirst($product['origin']) }}</span>         @endisset   @isset($product['weight'])        <b class="ml-3">Weight :</b> <span class="badge badge-info"> {{  round($product['weight']/1000, 1) }} Kg </span>                      @endisset </p>
+                                    </div>
+
                                     <div class="mt-3">
                                         <div class="product-quantity d-flex flex-column __gap-15">
                                             <div class="d-flex align-items-center gap-3">

@@ -247,6 +247,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
             Route::post(Product::UPDATE_QUANTITY[URI], 'updateQuantity')->name('update-quantity');
             Route::get(Product::BULK_IMPORT[URI], 'getBulkImportView')->name('bulk-import');
             Route::post(Product::BULK_IMPORT[URI], 'importBulkProduct');
+            Route::get(Product::NEW_BULK_IMPORT[URI], 'getNewBulkImportView')->name('new-bulk-import');
+            Route::post(Product::NEW_BULK_IMPORT[URI], 'importNewBulkProduct');
             Route::get(Product::UPDATED_PRODUCT_LIST[URI], 'updatedProductList')->name('updated-product-list');
             Route::post(Product::UPDATED_SHIPPING[URI], 'updatedShipping')->name('updated-shipping');
             Route::post(Product::DENY[URI], 'deny')->name('deny');
