@@ -8457,4 +8457,6 @@ return [
 	"Weight" => "Weight",
 	"weight" => "Weight",
 	"origin" => "Origin",
+	"(In grams)" => "(In grams)",
+	"hsn_sac_code" => "Hsn sac code",
 ];

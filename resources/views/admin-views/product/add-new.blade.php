@@ -190,7 +190,49 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-9">
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="title-color d-flex justify-content-between gap-2">
+                                    <span class="d-flex align-items-center gap-2">
+                                        {{ translate('weight') }}
+                                    </span>
+                                    <span class="style-one-pro cursor-pointer text-secondary" >
+                                        {{ translate('(In grams)') }}
+                                    </span>
+                                </label>
+                                <input type="text" id="weight" name="weight"
+                                       class="form-control" value="{{ old('weight') }}"
+                                       placeholder="{{ translate('ex').': 2000'}}" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="title-color d-flex justify-content-between gap-2">
+                                    <span class="d-flex align-items-center gap-2">
+                                        {{ translate('origin') }}
+                                    </span>
+                                </label>
+                                <input type="text" id="origin" name="origin"
+                                       class="form-control" value="{{ old('origin') }}"
+                                       placeholder="{{ translate('ex').': India'}}" >
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-4 col-xl-3">
+                            <div class="form-group">
+                                <label class="title-color d-flex justify-content-between gap-2">
+                                    <span class="d-flex align-items-center gap-2">
+                                        {{ translate('hsn_sac_code') }}
+                                    </span>
+                                </label>
+                                <input type="text" id="hsn_sac_code" name="hsn_sac_code"
+                                       class="form-control" value="{{ old('hsn sac code') }}"
+                                       placeholder="{{ translate('ex').': ABC125'}}" required>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label class="title-color d-flex align-items-center gap-2">
                                     {{ translate('search_tags') }}
@@ -204,6 +246,7 @@
                                        name="tags" data-role="tagsinput">
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

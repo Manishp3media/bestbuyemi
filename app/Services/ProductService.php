@@ -383,6 +383,9 @@ class ProductService
             'sub_category_id' => $request['sub_category_id'],
             'sub_sub_category_id' => $request['sub_sub_category_id'],
             'brand_id' => $request['brand_id'],
+            'weight' => $request['weight'],
+            'origin' => $request['origin'],
+            'hsn_sac_code' => $request['hsn_sac_code'],
             'unit' => $request['product_type'] == 'physical' ? $request['unit'] : null,
             'digital_product_type' => $request['product_type'] == 'digital' ? $request['digital_product_type'] : null,
             'digital_file_ready' => $digitalFile,
@@ -681,7 +684,10 @@ class ProductService
             $choiceOptions = [];
             $attribute_ids = [];
             $variations = [];
-            foreach ($collection as $key => $value) {
+            $images_arr = [];
+
+            foreach ($collection as $key => $value)
+            {
                 if ($key != "" && !in_array($key, $columnKey)) {
                     return [
                         'status' => false,
@@ -698,6 +704,7 @@ class ProductService
                 //     ];
                 // }
             }
+
             $thumbnailFileName = Null;
             if($collection['thumbnail'])
             {
@@ -716,22 +723,49 @@ class ProductService
                 Storage::put($filePath, $imageContents);
             }
 
-            for ($i = 1; $i <= 4; $i++) {
-                $optionNameKey = 'option_name_' . $i;
-                $optionValueKey = 'option_value_' . $i;
+            if(isset($collection['option_name_1']) || isset($collection['option_name_2']) || isset($collection['option_name_3']) || isset($collection['option_name_4']) )
+            {
+                for ($i = 1; $i <= 4; $i++) {
+                    $optionNameKey = 'option_name_' . $i;
+                    $optionValueKey = 'option_value_' . $i;
+
+                    if (isset($collection[$optionNameKey]) && $collection[$optionNameKey] !== "") {
+                        // Split option values by comma and trim each value
+                        $options = array_map('trim', explode(',', $collection[$optionValueKey]));
+
+                        $attr = Attribute::where('name', $collection[$optionNameKey])->first();
+                        $attribute_ids[] = $attr->id;
+
+                        $choiceOptions[] = [
+                            'name' => 'choice_'.$i,
+                            'title' => $collection[$optionNameKey],
+                            'options' => $options,
+                        ];
+                    }
+                }
+            }
+
+            for ($i = 1; $i <= 4; $i++)
+            {
+                $optionNameKey = 'image_url_' . $i;
 
                 if (isset($collection[$optionNameKey]) && $collection[$optionNameKey] !== "") {
-                    // Split option values by comma and trim each value
-                    $options = array_map('trim', explode(',', $collection[$optionValueKey]));
 
-                    $attr = Attribute::where('name', $collection[$optionNameKey])->first();
-                    $attribute_ids[] = $attr->id;
+                    $img_url = $collection[$optionNameKey];
 
-                    $choiceOptions[] = [
-                        'name' => 'choice_'.$i,
-                        'title' => $collection[$optionNameKey],
-                        'options' => $options,
-                    ];
+                    // Parse the URL to get the file name and extension
+                    $path = parse_url($img_url, PHP_URL_PATH);
+                    $imagesFileName = basename($path);
+
+                    // Make an HTTP request to get the image
+                    $response = Http::get($img_url);
+
+                    // Get the image contents
+                    $imageContents = $response->body();
+                    $filePath = 'public/product/'.$imagesFileName;
+                    Storage::put($filePath, $imageContents);
+
+                    $images_arr[] = $imagesFileName;
                 }
             }
 
@@ -768,7 +802,7 @@ class ProductService
                 'meta_description' => $collection['meta_description'],
                 'video_provider' => 'youtube',
                 'video_url' => $collection['youtube_video_code1'],
-                'images' => json_encode(['def.png']),
+                'images' => json_encode($images_arr),
                 'thumbnail' => $thumbnailFileName,
                 'status' => 0,
                 'request_status' => 1,
