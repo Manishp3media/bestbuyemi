@@ -4,6 +4,7 @@ use App\Enums\ViewPaths\Web\Chatting;
 use App\Enums\ViewPaths\Web\ProductCompare;
 use App\Enums\ViewPaths\Web\ShopFollower;
 use App\Http\Controllers\Customer\SystemController;
+use App\Http\Controllers\Payment_Methods\JusPayController;
 use App\Http\Controllers\Web\CartController;
 use App\Http\Controllers\Web\ChattingController;
 use App\Http\Controllers\Web\CouponController;
@@ -374,6 +375,13 @@ if (!$is_published) {
         Route::group(['prefix' => 'razor-pay', 'as' => 'razor-pay.'], function () {
             Route::get('pay', [RazorPayController::class, 'index']);
             Route::post('payment', [RazorPayController::class, 'payment'])->name('payment')
+                ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+        });
+
+        //JUS-PAY
+        Route::group(['prefix' => 'jus-pay', 'as' => 'jus-pay.'], function () {
+            Route::get('pay', [JusPayController::class, 'index']);
+            Route::post('payment', [JusPayController::class, 'payment'])->name('payment')
                 ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
         });
 

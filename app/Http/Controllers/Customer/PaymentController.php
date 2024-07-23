@@ -60,7 +60,6 @@ class PaymentController extends Controller
                 return back();
             }
         }
-
         $cartGroupIds = CartManager::get_cart_group_ids(request: $request, type: 'checked');
         $carts = Cart::whereIn('cart_group_id', $cartGroupIds)->where(['is_checked' => 1])->get();
         $productStockCheck = CartManager::product_stock_check($carts);
@@ -118,7 +117,6 @@ class PaymentController extends Controller
                 ];
             }
         }
-
         $redirectLink = $this->getCustomerPaymentRequest($request, $orderAdditionalData);
 
         if (in_array($request['payment_request_from'], ['app'])) {
@@ -345,6 +343,7 @@ class PaymentController extends Controller
         );
 
         $receiverInfo = new Receiver('receiver_name', 'example.png');
+        // dd($this->generate_link($payer, $paymentInfo, $receiverInfo));
         return $this->generate_link($payer, $paymentInfo, $receiverInfo);
     }
 
