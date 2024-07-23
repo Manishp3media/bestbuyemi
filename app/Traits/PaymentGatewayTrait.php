@@ -151,9 +151,6 @@ trait PaymentGatewayTrait
             "razor_pay" => [
                 "INR" => "Indian Rupee"
             ],
-            "just_pay" => [
-                "INR" => "Indian Rupee"
-            ],
             "senang_pay" => [
                 "MYR" => "Malaysian Ringgit"
             ],

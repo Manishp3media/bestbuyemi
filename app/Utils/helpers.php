@@ -373,7 +373,6 @@ class Helpers
             'paypal',
             'stripe',
             'razor_pay',
-            'just_pay',
             'paystack',
             'senang_pay',
             'paymob_accept',

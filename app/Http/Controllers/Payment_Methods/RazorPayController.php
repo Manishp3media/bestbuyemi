@@ -70,7 +70,7 @@ class RazorPayController extends Controller
             $business_name = "my_business";
             $business_logo = url('/');
         }
- 
+
         return view('payment.razor-pay', compact('data', 'payer', 'business_logo', 'business_name'));
     }
 

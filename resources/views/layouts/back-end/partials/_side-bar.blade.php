@@ -361,13 +361,13 @@
                                             <span class="text-truncate">{{translate('add_New_Product')}}</span>
                                         </a>
                                     </li>
-                                    {{-- <li class="nav-item {{Request::is('admin/products/'.Product::BULK_IMPORT[URI])?'active':''}}">
+                                    <li class="nav-item {{Request::is('admin/products/'.Product::BULK_IMPORT[URI])?'active':''}}">
                                         <a class="nav-link " href="{{route('admin.products.bulk-import')}}"
                                            title="{{translate('bulk_import')}}">
                                             <span class="tio-circle nav-indicator-icon"></span>
                                             <span class="text-truncate">{{translate('bulk_import')}}</span>
                                         </a>
-                                    </li> --}}
+                                    </li>
                                     <li class="nav-item {{Request::is('admin/products/'.Product::NEW_BULK_IMPORT[URI])?'active':''}}">
                                         <a class="nav-link " href="{{route('admin.products.new-bulk-import')}}"
                                            title="{{translate('new_bulk_import')}}">
