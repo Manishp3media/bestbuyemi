@@ -124,7 +124,7 @@ class PaymentMethodController extends BaseController
         return back();
     }
 
-    public function UpdatePaymentConfig(PaymentMethodUpdateRequest $request): RedirectResponse
+    public function UpdatePaymentConfig(PaymentMethodUpdateRequest $request)
     {
         collect(['status'])->each(fn($item, $key) => $request[$item] = $request->has($item) ? (int)$request[$item] : 0);
         $settings = $this->settingRepo->getFirstWhere(params: ['key_name'=>$request['gateway'], 'settings_type'=>'payment_config']);

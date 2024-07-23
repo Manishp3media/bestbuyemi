@@ -96,7 +96,7 @@ class ProductController extends BaseController
         }
 
         $dataArray = $service->getAddProductData(request: $request, addedBy: 'admin');
-        dd($dataArray);
+
         $savedProduct = $this->productRepo->add(data: $dataArray);
         $this->productRepo->addRelatedTags(request: $request, product: $savedProduct);
         $this->translationRepo->add(request: $request, model: 'App\Models\Product', id: $savedProduct->id);

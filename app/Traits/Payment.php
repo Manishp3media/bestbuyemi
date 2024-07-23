@@ -16,7 +16,6 @@ trait Payment
         if (!in_array(strtoupper($payment_info->getCurrencyCode()), array_column(GATEWAYS_CURRENCIES, 'code'))) {
             throw new InvalidArgumentException('Need a valid currency code');
         }
-
         if (!in_array($payment_info->getPaymentMethod(), array_column(GATEWAYS_PAYMENT_METHODS, 'key'))) {
             throw new InvalidArgumentException('Need a valid payment gateway');
         }
@@ -60,6 +59,8 @@ trait Payment
             return url("payment/liqpay/pay/?payment_id={$payment->id}");
         }else if($payment->payment_method == 'razor_pay'){
             return url("payment/razor-pay/pay/?payment_id={$payment->id}");
+        }else if($payment->payment_method == 'just_pay'){
+            return url("payment/jus-pay/pay/?payment_id={$payment->id}");
         }else if($payment->payment_method == 'senang_pay'){
             return url("payment/senang-pay/pay/?payment_id={$payment->id}");
         }else if($payment->payment_method == 'mercadopago'){

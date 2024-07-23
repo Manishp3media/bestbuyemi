@@ -8459,4 +8459,11 @@ return [
 	"origin" => "Origin",
 	"(In grams)" => "(In grams)",
 	"hsn_sac_code" => "Hsn sac code",
+	"want_to_turn_ON_paystack_as_the_Digital_Payment_method" => "Want to turn ON paystack as the Digital Payment method",
+	"search_by_payment_method_name" => "Search by payment method name",
+	"no_subscriber_found" => "No subscriber found",
+	"The_phone_number_may_not_be_greater_than_20_characters" => "The phone number may not be greater than 20 characters",
+	"registration_successful" => "Registration successful",
+	"want_to_turn_Off_just_pay_as_the_Digital_Payment_method" => "Want to turn Off just pay as the Digital Payment method",
+	"select_shipping_method" => "Select shipping method",
 ];
