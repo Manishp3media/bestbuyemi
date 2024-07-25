@@ -16,8 +16,10 @@ use Illuminate\Routing\Controller;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use juspaypay\Api\Api;
+use Brian2694\Toastr\Facades\Toastr;
 
 class JusPayController extends Controller
 {
@@ -59,14 +61,15 @@ class JusPayController extends Controller
         }
 
         $data = $this->payment::where(['id' => $request['payment_id']])->where(['is_paid' => 0])->first();
-
+        Session::put('payment_id', $request['payment_id']);
         if (!isset($data)) {
             return response()->json($this->response_formatter(GATEWAYS_DEFAULT_204), 200);
         }
         $payer = json_decode($data['payer_information']);
         $user = User::where('email', $payer->email)->first();
-        $customer_id = 'CUST-'.$user->id;
-        $order_id = 'ORD-'.Carbon::now()->format('Y').rand(1000,9999);
+        $customer_id = $this->createJuspayCustomer($user);
+
+        $order_id = 'ORD-'.Carbon::now().rand(1000,9999);
 
         $api_key = "52B5EAE481F44D18C09086AAF57D5C";
         $authorization = "Basic " . base64_encode($api_key . ":");
@@ -77,12 +80,12 @@ class JusPayController extends Controller
         ])->post('https://api.juspay.in/session', [
             "order_id" => $order_id,
             "amount" => "10.0",
-            "customer_id" => $customer_id,
+            "customer_id" => 'CUST-'.$user->id,
             "customer_email" => $user->email,
             "customer_phone" => $user->phone,
             "payment_page_client_id" => "fastemi",
             "action" => "paymentPage",
-            "return_url" => "https://shop.merchant.com",
+            "return_url" => route('jus-pay.payment'),
             "description" => "Complete your payment",
             "first_name" => $user->f_name,
             "last_name" => $user->l_name
@@ -92,35 +95,67 @@ class JusPayController extends Controller
             $json_data = json_decode($response->body());
             return redirect($json_data->payment_links->web);
         } else {
-           dd($response->reason());
+            Toastr::error(translate($response->reason()).'!');
+            return redirect(url('/'));
         }
     }
 
     public function payment(Request $request): JsonResponse|Redirector|RedirectResponse|Application
     {
         $input = $request->all();
-        // dd($input);
-        $api = new Api(config('juspay_config.api_key'), config('juspay_config.api_secret'));
-        $payment = $api->payment->fetch($input['juspaypay_payment_id']);
+        $payment_id = Session::get('payment_id');
 
-        if (count($input) && !empty($input['juspaypay_payment_id'])) {
-            $response = $api->payment->fetch($input['juspaypay_payment_id'])->capture(array('amount' => $payment['amount']));
+        if (!empty($input['status_id']) && isset($payment_id) && $input['status_id'] == '21' ) {
 
-            $this->payment::where(['id' => $request['payment_id']])->update([
+            $this->payment::where(['id' => $payment_id])->update([
                 'payment_method' => 'juspay_pay',
                 'is_paid' => 1,
-                'transaction_id' => $input['juspaypay_payment_id'],
+                'transaction_id' => $input['order_id'],
             ]);
-            $data = $this->payment::where(['id' => $request['payment_id']])->first();
+            $data = $this->payment::where(['id' => $payment_id])->first();
+
             if (isset($data) && function_exists($data->success_hook)) {
                 call_user_func($data->success_hook, $data);
             }
+            Session::forget('payment_id');
             return $this->payment_response($data, 'success');
         }
-        $payment_data = $this->payment::where(['id' => $request['payment_id']])->first();
+        $payment_data = $this->payment::where(['id' => $payment_id])->first();;
         if (isset($payment_data) && function_exists($payment_data->failure_hook)) {
             call_user_func($payment_data->failure_hook, $payment_data);
         }
+        Session::forget('payment_id');
         return $this->payment_response($payment_data, 'fail');
+    }
+
+    public function createJuspayCustomer($user)
+    {
+        $api_key = "52B5EAE481F44D18C09086AAF57D5C";
+        $authorization = "Basic " . base64_encode($api_key . ":");
+
+        $response = Http::withHeaders([
+            'Authorization' => $authorization,
+            'x-merchantid' => 'fastemi',
+            'Content-Type' => 'application/json',
+        ])->post('https://api.juspay.in/customers', [
+            'object_reference_id' => 'test1@gmail.com',
+            'mobile_number' => $user->phone,
+            'email_address' => $user->email,
+            'first_name' => $user->f_name,
+            'last_name' => $user->l_name,
+            'mobile_country_code' => '91',
+            'options.get_client_auth_token' => 'true',
+        ]);
+
+        // Check response status and content
+        if ($response->successful()) {
+            // Successful request, handle response
+            $responseData = $response->json();
+            return $responseData->id;
+        } else {
+            // Request failed
+            $errorMessage = $response->body();
+            // Handle error
+        }
     }
 }

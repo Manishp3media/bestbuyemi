@@ -8466,4 +8466,8 @@ return [
 	"registration_successful" => "Registration successful",
 	"want_to_turn_Off_just_pay_as_the_Digital_Payment_method" => "Want to turn Off just pay as the Digital Payment method",
 	"select_shipping_method" => "Select shipping method",
+	"time_&_Date" => "Time & Date",
+	"successfully updated" => "Successfully updated",
+	"Order_Placed_Successfully" => "Order Placed Successfully",
+	"Payment_failed" => "Payment failed",
 ];
