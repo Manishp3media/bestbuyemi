@@ -30,6 +30,7 @@ use App\Models\DigitalProductOtpVerification;
 use App\Models\FlashDeal;
 use App\Models\FlashDealProduct;
 use App\Models\Order;
+use App\Models\PaymentMethodType;
 use App\Models\Product;
 use App\Models\ProductCompare;
 use App\Models\Seller;
@@ -479,6 +480,11 @@ class WebController extends Controller
         $paymentPublishedStatus = config('get_payment_publish_status');
         $paymentGatewayPublishedStatus = isset($paymentPublishedStatus[0]['is_published']) ? $paymentPublishedStatus[0]['is_published'] : 0;
 
+        $payment_method_types = PaymentMethodType::get()->groupBy('name');
+        $mapped_payment_method_types = $payment_method_types->mapWithKeys(function ($items, $key) {
+            return [$key => $items->pluck('key')];
+        });
+
         if (session()->has('address_id') && session()->has('billing_address_id')) {
             return view(VIEW_FILE_NAMES['payment_details'], [
                 'cashOnDeliveryBtnShow' => $cashOnDeliveryBtnShow,
@@ -494,7 +500,8 @@ class WebController extends Controller
                 'myr' => $myr,
                 'paymentGatewayPublishedStatus' => $paymentGatewayPublishedStatus,
                 'payment_gateways_list' => payment_gateways(),
-                'offline_payment_methods' => $offlinePaymentMethods
+                'offline_payment_methods' => $offlinePaymentMethods,
+                'payment_method_types' => $mapped_payment_method_types
             ]);
         }
 

@@ -37,6 +37,8 @@ use App\Http\Controllers\Payment_Methods\SenangPayController;
 use App\Http\Controllers\Payment_Methods\MercadoPagoController;
 use App\Http\Controllers\Payment_Methods\BkashPaymentController;
 use App\Http\Controllers\Payment_Methods\PaystackController;
+use App\Http\Controllers\Payment_Methods\PayUController;
+use App\Http\Controllers\Payment_Methods\BharatXController;
 
 /*
 |--------------------------------------------------------------------------
@@ -382,6 +384,20 @@ if (!$is_published) {
         Route::group(['prefix' => 'jus-pay', 'as' => 'jus-pay.'], function () {
             Route::get('pay', [JusPayController::class, 'index']);
             Route::post('payment', [JusPayController::class, 'payment'])->name('payment')
+                ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+        });
+
+        //PAYU
+        Route::group(['prefix' => 'payu', 'as' => 'payu.'], function () {
+            Route::get('pay', [PayUController::class, 'index']);
+            Route::post('payment', [PayUController::class, 'payment'])->name('payment')
+                ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+        });
+
+        //BHARAT-X
+        Route::group(['prefix' => 'bharat-x', 'as' => 'bharatx.'], function () {
+            Route::get('pay', [BharatXController::class, 'index']);
+            Route::get('payment', [BharatXController::class, 'payment'])->name('payment')
                 ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
         });
 

@@ -9,6 +9,7 @@ use App\Enums\GlobalConstant;
 use App\Enums\ViewPaths\Admin\PaymentMethod;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\Admin\PaymentMethodUpdateRequest;
+use App\Models\PaymentMethodType;
 use App\Services\SettingService;
 use App\Traits\PaymentGatewayTrait;
 use App\Traits\Processor;
@@ -70,6 +71,10 @@ class PaymentMethodController extends BaseController
         })->values()->all();
 
         $paymentUrl = $this->settingService->getVacationData(type: 'payment_setup');
+        $payment_method_types = PaymentMethodType::get()->groupBy('key');
+        $mapped_payment_method_types = $payment_method_types->mapWithKeys(function ($items, $key) {
+            return [$key => $items->pluck('name')];
+        });
         return view(PaymentMethod::LIST[VIEW], [
             'paymentGatewaysList' => $paymentGatewaysList,
             'paymentGatewayPublishedStatus' => $paymentGatewayPublishedStatus,
@@ -77,6 +82,7 @@ class PaymentMethodController extends BaseController
             'cashOnDelivery' => getWebConfig(name: 'cash_on_delivery'),
             'digitalPayment' => getWebConfig(name: 'digital_payment'),
             'offlinePayment' => getWebConfig(name: 'offline_payment'),
+            'mapped_payment_method_types' => $mapped_payment_method_types
         ]);
     }
 
@@ -168,6 +174,21 @@ class PaymentMethodController extends BaseController
             'is_active' => $status,
             'additional_data' => json_encode(['gateway_title' => $request['gateway_title'],'gateway_image' => $gatewayImage]),
         ]);
+
+        // Delete existing records for the given key
+        $exist = PaymentMethodType::where('key', $request['gateway'])->get();
+
+        if(isset($exist)){
+            PaymentMethodType::where('key', $request['gateway'])->delete();
+        }
+
+        foreach ($request['payment_method_type'] as $type)
+        {
+            PaymentMethodType::create([
+                'key' => $request['gateway'],
+                'name' => $type
+            ]);
+        }
 
         return back();
     }

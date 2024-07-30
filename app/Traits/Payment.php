@@ -59,8 +59,12 @@ trait Payment
             return url("payment/liqpay/pay/?payment_id={$payment->id}");
         }else if($payment->payment_method == 'razor_pay'){
             return url("payment/razor-pay/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'just_pay'){
+        }else if($payment->payment_method == 'jus_pay'){
             return url("payment/jus-pay/pay/?payment_id={$payment->id}");
+        }else if($payment->payment_method == 'payu'){
+            return url("payment/payu/pay/?payment_id={$payment->id}");
+        }else if($payment->payment_method == 'bharat_x'){
+            return url("payment/bharat-x/pay/?payment_id={$payment->id}");
         }else if($payment->payment_method == 'senang_pay'){
             return url("payment/senang-pay/pay/?payment_id={$payment->id}");
         }else if($payment->payment_method == 'mercadopago'){

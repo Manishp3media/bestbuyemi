@@ -117,6 +117,33 @@
                                            value="{{$additional_data != null ? $additional_data->gateway_title : ''}}" required>
                                 </div>
 
+                                <div class="form-group mb-10px">
+                                    <label for="exampleFormControlInput1" class="form-label">
+                                        {{ translate('payment_method_type') }}
+                                    </label>
+                                    <div class="d-flex flex-wrap">
+                                        @foreach([
+                                            'upi' => 'UPI',
+                                            'card' => 'Credit/Debit Card',
+                                            'netbanking' => 'Netbanking',
+                                            'cardless' => 'Cardless'
+                                        ] as $value => $label)
+                                            <div class="form-check form-check-inline mr-2">
+                                                <input type="checkbox" class="form-check-input"
+                                                       name="payment_method_type[]"
+                                                       value="{{ $value }}"
+                                                       id="payment_method_{{ $value }}_{{ $gateway->key_name }}"
+                                                       {{ isset($mapped_payment_method_types[$gateway->key_name]) && in_array($value, $mapped_payment_method_types[$gateway->key_name]->toArray()) ? 'checked' : '' }} />
+                                                <label class="form-check-label" for="payment_method_{{ $value }}_{{ $gateway->key_name }}">
+                                                    {{ $label }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+
+
+
                                 <div class="form-group mb-10px" >
                                     <label for="exampleFormControlInput1"
                                            class="form-label text-capitalize">{{translate('choose_logo')}} </label>

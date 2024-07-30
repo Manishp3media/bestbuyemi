@@ -372,7 +372,7 @@
                                         <a class="nav-link " href="{{route('admin.products.new-bulk-import')}}"
                                            title="{{translate('new_bulk_import')}}">
                                             <span class="tio-circle nav-indicator-icon"></span>
-                                            <span class="text-truncate">{{translate('new_bulk_import')}}</span>
+                                            <span class="text-truncate">{{translate('bulk_import')}}</span>
                                         </a>
                                     </li>
                                 </ul>

@@ -68,47 +68,53 @@
                             @endif
 
                             @if ($digital_payment['status']==1)
-                                <div class="d-flex flex-wrap gap-2 align-items-center mb-4 ">
-                                    <h5 class="mb-0 text-capitalize">{{ translate('pay_via_online') }}</h5>
-                                    <span class="fs-10 text-capitalize mt-1">({{ translate('faster_&_secure_way_to_pay') }})</span>
-                                </div>
 
-                                <div class="row gx-4 mb-4">
-                                @foreach ($payment_gateways_list as $payment_gateway)
-                                    <div class="col-sm-6">
-                                        <form method="post" class="digital_payment" id="{{($payment_gateway->key_name)}}_form" action="{{ route('customer.web-payment-request') }}">
-                                            @csrf
-                                            <input type="hidden" name="user_id" value="{{ auth('customer')->check() ? auth('customer')->user()->id : session('guest_id') }}">
-                                            <input type="hidden" name="customer_id" value="{{ auth('customer')->check() ? auth('customer')->user()->id : session('guest_id') }}">
-                                            <input type="hidden" name="payment_method" value="{{ $payment_gateway->key_name }}">
-                                            <input type="hidden" name="payment_platform" value="web">
-
-                                            @if ($payment_gateway->mode == 'live' && isset($payment_gateway->live_values['callback_url']))
-                                                <input type="hidden" name="callback" value="{{ $payment_gateway->live_values['callback_url'] }}">
-                                            @elseif ($payment_gateway->mode == 'test' && isset($payment_gateway->test_values['callback_url']))
-                                                <input type="hidden" name="callback" value="{{ $payment_gateway->test_values['callback_url'] }}">
-                                            @else
-                                                <input type="hidden" name="callback" value="">
-                                            @endif
-
-                                            <input type="hidden" name="external_redirect_link" value="{{ url('/').'/web-payment' }}">
-                                            <label class="d-flex align-items-center gap-2 mb-0 form-check py-2 cursor-pointer">
-                                                <input type="radio" id="{{($payment_gateway->key_name)}}" name="online_payment" class="form-check-input custom-radio" value="{{($payment_gateway->key_name)}}">
-                                                <img width="30"
-                                                src="{{dynamicStorage(path: 'storage/app/public/payment_modules/gateway_image')}}/{{ $payment_gateway->additional_data && (json_decode($payment_gateway->additional_data)->gateway_image) != null ? (json_decode($payment_gateway->additional_data)->gateway_image) : ''}}" alt="">
-                                                <span class="text-capitalize form-check-label">
-                                                    @if($payment_gateway->additional_data && json_decode($payment_gateway->additional_data)->gateway_title != null)
-                                                        {{ json_decode($payment_gateway->additional_data)->gateway_title }}
-                                                    @else
-                                                        {{ str_replace('_', ' ',$payment_gateway->key_name) }}
-                                                    @endif
-
-                                                </span>
-                                            </label>
-                                        </form>
+                                @foreach ($payment_method_types as $key=>$type)
+                                    <div class="d-flex flex-wrap gap-2 align-items-center mb-4 ">
+                                        <h5 class="mb-0 text-capitalize">{{ translate('pay_via_'.$key) }}</h5>
+                                        <span class="fs-10 text-capitalize mt-1">({{ translate('faster_&_secure_way_to_pay') }})</span>
                                     </div>
-                                    @endforeach
-                                </div>
+
+                                    <div class="row gx-4 mb-4">
+                                        @foreach ($payment_gateways_list as $payment_gateway)
+                                            @if(in_array($payment_gateway->key_name, $type->toArray()))
+                                                <div class="col-sm-6">
+                                                    <form method="post" class="digital_payment" id="{{($payment_gateway->key_name)}}_form" action="{{ route('customer.web-payment-request') }}">
+                                                        @csrf
+                                                        <input type="hidden" name="user_id" value="{{ auth('customer')->check() ? auth('customer')->user()->id : session('guest_id') }}">
+                                                        <input type="hidden" name="customer_id" value="{{ auth('customer')->check() ? auth('customer')->user()->id : session('guest_id') }}">
+                                                        <input type="hidden" name="payment_method" value="{{ $payment_gateway->key_name }}">
+                                                        <input type="hidden" name="payment_platform" value="web">
+
+                                                        @if ($payment_gateway->mode == 'live' && isset($payment_gateway->live_values['callback_url']))
+                                                            <input type="hidden" name="callback" value="{{ $payment_gateway->live_values['callback_url'] }}">
+                                                        @elseif ($payment_gateway->mode == 'test' && isset($payment_gateway->test_values['callback_url']))
+                                                            <input type="hidden" name="callback" value="{{ $payment_gateway->test_values['callback_url'] }}">
+                                                        @else
+                                                            <input type="hidden" name="callback" value="">
+                                                        @endif
+
+                                                        <input type="hidden" name="external_redirect_link" value="{{ url('/').'/web-payment' }}">
+                                                        <label class="d-flex align-items-center gap-2 mb-0 form-check py-2 cursor-pointer">
+                                                            <input type="radio" id="{{($payment_gateway->key_name)}}" name="online_payment" class="form-check-input custom-radio" value="{{($payment_gateway->key_name)}}">
+                                                            <img width="30"
+                                                            src="{{dynamicStorage(path: 'storage/app/public/payment_modules/gateway_image')}}/{{ $payment_gateway->additional_data && (json_decode($payment_gateway->additional_data)->gateway_image) != null ? (json_decode($payment_gateway->additional_data)->gateway_image) : ''}}" alt="">
+                                                            <span class="text-capitalize form-check-label">
+                                                                @if($payment_gateway->additional_data && json_decode($payment_gateway->additional_data)->gateway_title != null)
+                                                                    {{ json_decode($payment_gateway->additional_data)->gateway_title }}
+                                                                @else
+                                                                    {{ str_replace('_', ' ',$payment_gateway->key_name) }}
+                                                                @endif
+
+                                                            </span>
+                                                        </label>
+                                                    </form>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                @endforeach
+
 
                                 @if(isset($offline_payment) && $offline_payment['status'] && count($offline_payment_methods)>0)
                                 <div class="row g-3">

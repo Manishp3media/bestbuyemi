@@ -151,7 +151,13 @@ trait PaymentGatewayTrait
             "razor_pay" => [
                 "INR" => "Indian Rupee"
             ],
-            "just_pay" => [
+            "jus_pay" => [
+                "INR" => "Indian Rupee"
+            ],
+            "payu" => [
+                "INR" => "Indian Rupee"
+            ],
+            "bharat_x" => [
                 "INR" => "Indian Rupee"
             ],
             "senang_pay" => [
