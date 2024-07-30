@@ -69,6 +69,7 @@ const THUMBNAIL = 'thumbnail';
 const URI = 'uri';
 const URL = 'url';
 const USD = 'usd';
+const INR = 'inr';
 const USER_ID = 'user_id';
 const UNIQUE = 'unique';
 const UNIT = 'unit';

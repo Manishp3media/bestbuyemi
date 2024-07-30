@@ -147,7 +147,7 @@
                                                         <label for="su-email">{{ translate('phone')}}</label>
                                                         <input class="form-control" name="phone" type="number"
                                                                id="su-phone" placeholder="{{ translate('01700000000')}}"
-                                                               required>
+                                                               required readonly>
                                                         <div class="invalid-feedback">
                                                             {{ translate('please_provide_a_valid_phone_number.')}}
                                                         </div>
