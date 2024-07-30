@@ -91,7 +91,7 @@ class BharatXController extends Controller
         // Prepare the request body
         $body = [
             "id" => "txnId1".rand(1000,9999),
-            "amount" => 1000, // in paise
+            "amount" => round($data->payment_amount, 2)*100, // in paise
             "user" => [
                 "name" => $cust_user->name,
                 "phoneNumber" => $cust_user->phone,

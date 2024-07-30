@@ -79,7 +79,7 @@ class JusPayController extends Controller
             'Content-Type' => 'application/json',
         ])->post('https://api.juspay.in/session', [
             "order_id" => $order_id,
-            "amount" => "10.0",
+            "amount" => round($data->payment_amount, 2),
             "customer_id" => 'CUST-'.$user->id,
             "customer_email" => $user->email,
             "customer_phone" => $user->phone,

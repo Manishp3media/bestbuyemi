@@ -82,7 +82,7 @@ class PayUController extends Controller
             ->firstName($cust_user->f_name)
             ->email($cust_user->email);
         $transaction = Transaction::make()
-            ->charge(1)
+            ->charge(round($data->payment_amount, 2))
             ->for('Product')
             ->to($customer);
         $params = [
