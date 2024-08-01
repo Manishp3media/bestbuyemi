@@ -603,7 +603,6 @@ class CartManager
     public static function add_to_cart($request, $from_api = false): array
     {
         $product = Product::with(['digitalVariation'])->where(['id' => $request['id']])->first();
-
         $shippingMethod = Helpers::get_business_settings('shipping_method');
         $adminShipping = ShippingType::where('seller_id', 0)->first();
         $sellerShippingList = null;

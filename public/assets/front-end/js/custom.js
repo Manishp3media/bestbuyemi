@@ -1038,7 +1038,7 @@ function productQuickViewFunctionalityInitialize() {
     });
 }
 
-function addToCart(form_id = "add-to-cart-form", redirect_to_checkout = false) {
+function addToCart(form_id = "add-to-cart-form", redirect_to_checkout = true) {
     if (checkAddToCartValidity()) {
         $.ajaxSetup({
             headers: {
@@ -1060,6 +1060,12 @@ function addToCart(form_id = "add-to-cart-form", redirect_to_checkout = false) {
                 .concat({
                     name: "buy_now",
                     value: redirect_to_checkout ? 1 : 0,
+                }, {
+                    name: "shipping_method_id",
+                    value: 2
+                }, {
+                    name: "shipping_method_exist",
+                    value: 1
                 }),
             beforeSend: function () {
                 $("#loading").show();
@@ -1067,11 +1073,26 @@ function addToCart(form_id = "add-to-cart-form", redirect_to_checkout = false) {
             success: function (response) {
                 console.log(response);
                 if (response.status === 2) {
-                    $("#buyNowModal-body").html(
-                        response.shippingMethodHtmlView
-                    );
+                    // $("#buyNowModal-body").html(
+                    //     response.shippingMethodHtmlView
+                    // );
                     $("#quick-view").modal("hide");
-                    $("#buyNowModal").modal("show");
+                    // $("#buyNowModal").modal("show");
+
+
+                    if (
+                        redirect_to_checkout == true &&
+                        response.redirect_to_url
+                    ) {
+                        setTimeout(function () {
+                            location.href = response.redirect_to_url;
+                        }, 100);
+                    } else if (redirect_to_checkout) {
+                        location.href = $("#route-checkout-details").data(
+                            "url"
+                        );
+                    }
+
                     return false;
                 }
                 if (response.status == 1) {

@@ -86,7 +86,6 @@ if (!function_exists('webCurrencyConverter')) {
     function webCurrencyConverter(string|int|float $amount): float|string
     {
         $currencyModel = getWebConfig('currency_model');
-        Log::info('webcurrencymodel'. json_encode($currencyModel));
         if ($currencyModel == MULTI_CURRENCY) {
             if (session()->has('usd')) {
                 $usd = session('usd');

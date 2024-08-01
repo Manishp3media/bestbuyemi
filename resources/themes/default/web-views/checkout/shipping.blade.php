@@ -76,7 +76,7 @@
                                                                 <label>{{ translate('phone')}}
                                                                     <span class="text-danger">*</span>
                                                                 </label>
-                                                                <input type="tel" class="form-control phone-input-with-country-picker-3" id="phone" {{$shippingAddresses->count()==0?'required':''}}>
+                                                                <input type="tel" class="form-control phone-input-with-country-picker-3" id="phone" {{$shippingAddresses->count()==0?'required':''}} readonly>
                                                                 <input type="hidden" id="shipping_phone_view" class="country-picker-phone-number-3 w-50" name="phone" readonly>
                                                             </div>
                                                         </div>
@@ -304,7 +304,7 @@
                                                                     <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input type="text" class="form-control phone-input-with-country-picker-2"
-                                                                    id="billing_phone" {{ $billingAddresses->count()==0 ? 'required' : '' }}>
+                                                                    id="billing_phone" {{ $billingAddresses->count()==0 ? 'required' : '' }} readonly>
                                                                 <input type="hidden" class="country-picker-phone-number-2 w-50" name="billing_phone" readonly>
                                                             </div>
                                                         </div>

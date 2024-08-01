@@ -527,9 +527,9 @@
                                             <div class="d-sm-flex">
                                                 <select class="form-control fs-13 font-weight-bold text-capitalize border-aliceblue max-240px action-set-shipping-id"
                                                         data-product-id="{{ $cartItem['cart_group_id'] }}">
-                                                    <option>{{ translate('choose_shipping_method')}}</option>
+                                                    <option disabled>{{ translate('choose_shipping_method')}}</option>
                                                     @foreach($shippings as $shipping)
-                                                        <option
+                                                        <option selected
                                                             value="{{$shipping['id']}}" {{$chosenShipping['shipping_method_id']==$shipping['id']?'selected':''}}>
                                                             {{ translate('shipping_method')}}
                                                             : {{$shipping['title'].' ( '.$shipping['duration'].' ) '.webCurrencyConverter(amount: $shipping['cost'])}}
@@ -787,9 +787,9 @@
                         <div class="col-12">
                             <select class="form-control border-aliceblue action-set-shipping-id"
                                     data-product-id="all_cart_group">
-                                <option>{{ translate('choose_shipping_method')}}</option>
+                                <option disabled>{{ translate('choose_shipping_method')}}</option>
                                 @foreach($shippings as $shipping)
-                                    <option
+                                    <option selected
                                         value="{{$shipping['id']}}" {{$chosenShipping['shipping_method_id']==$shipping['id']?'selected':''}}>
                                         {{ translate('shipping_method')}}
                                         : {{$shipping['title'].' ( '.$shipping['duration'].' ) '.webCurrencyConverter(amount: $shipping['cost'])}}
