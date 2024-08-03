@@ -485,6 +485,17 @@ class WebController extends Controller
             return [$key => $items->pluck('key')];
         });
 
+        $priority = [
+            'cardless' => 1,
+            'card' => 2,
+            'upi' => 3,
+            'netbanking' => 4,
+        ];
+
+        $sorted_payment_method_types = $mapped_payment_method_types->sortBy(function ($value, $key) use ($priority) {
+            return $priority[$key] ?? PHP_INT_MAX;
+        });
+
         if (session()->has('address_id') && session()->has('billing_address_id')) {
             return view(VIEW_FILE_NAMES['payment_details'], [
                 'cashOnDeliveryBtnShow' => $cashOnDeliveryBtnShow,
@@ -501,7 +512,7 @@ class WebController extends Controller
                 'paymentGatewayPublishedStatus' => $paymentGatewayPublishedStatus,
                 'payment_gateways_list' => payment_gateways(),
                 'offline_payment_methods' => $offlinePaymentMethods,
-                'payment_method_types' => $mapped_payment_method_types
+                'payment_method_types' => $sorted_payment_method_types
             ]);
         }
 

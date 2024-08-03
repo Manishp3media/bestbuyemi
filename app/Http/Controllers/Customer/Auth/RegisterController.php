@@ -161,8 +161,12 @@ class RegisterController extends Controller
         $email_verification = Helpers::get_business_settings('email_verification');
 
         $user = User::find($id);
-        if($phone_verification){
-            $user_verify = $user->is_phone_verified == 1 ? 1 : 0;
+        if(env('OTP_LOGIN')==true)
+        {
+            $user_verify=0;
+        }
+        elseif($phone_verification){
+            $user_verify = $user->is_phone_verified == 1 ? 1  : 0;
         }elseif($email_verification){
             $user_verify = $user->is_email_verified == 1 ? 1 : 0;
         }
@@ -209,6 +213,7 @@ class RegisterController extends Controller
             $verify->delete();
 
             Toastr::success(translate('verification_done_successfully'));
+           (env('OTP_LOGIN')==true)? auth('customer')->login($user):'';
             return redirect(route('customer.auth.login'));
 
         }else{

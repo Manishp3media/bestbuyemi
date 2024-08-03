@@ -76,7 +76,7 @@
                                                                 <label>{{ translate('phone')}}
                                                                     <span class="text-danger">*</span>
                                                                 </label>
-                                                                <input type="tel" class="form-control phone-input-with-country-picker-3" id="phone" {{$shippingAddresses->count()==0?'required':''}} readonly>
+                                                                <input type="tel" class="form-control phone-input-with-country-picker-3" id="phone" {{$shippingAddresses->count()==0?'required':''}} value="{{ auth('customer')->check() ? auth('customer')->user()->phone : '' }}" readonly>
                                                                 <input type="hidden" id="shipping_phone_view" class="country-picker-phone-number-3 w-50" name="phone" readonly>
                                                             </div>
                                                         </div>
@@ -91,7 +91,13 @@
                                                                 </div>
                                                             </div>
                                                         @endif
-                                                        <div class="col-12">
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label>{{ translate('alternate_phone')}}</label>
+                                                                <input type="tel" class="form-control phone-input-with-country-picker-3" id="alternate_phone" {{$shippingAddresses->count()==0?'required':''}}>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
                                                             <div class="form-group">
                                                                 <label>{{ translate('address_type')}}</label>
                                                                 <select class="form-control" name="address_type" id="address_type">
@@ -304,7 +310,7 @@
                                                                     <span class="text-danger">*</span>
                                                                 </label>
                                                                 <input type="text" class="form-control phone-input-with-country-picker-2"
-                                                                    id="billing_phone" {{ $billingAddresses->count()==0 ? 'required' : '' }} readonly>
+                                                                    id="billing_phone" {{ $billingAddresses->count()==0 ? 'required' : '' }} value="{{ auth('customer')->check() ? auth('customer')->user()->phone : '' }}" readonly>
                                                                 <input type="hidden" class="country-picker-phone-number-2 w-50" name="billing_phone" readonly>
                                                             </div>
                                                         </div>
@@ -319,7 +325,13 @@
                                                                 </div>
                                                             </div>
                                                         @endif
-                                                        <div class="col-12">
+                                                        <div class="col-6">
+                                                            <div class="form-group">
+                                                                <label>{{ translate('alternate_phone')}}</label>
+                                                                <input type="tel" class="form-control phone-input-with-country-picker-3" id="alternate_billing_phone" {{$shippingAddresses->count()==0?'required':''}}>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
                                                             <div class="form-group">
                                                                 <label>{{ translate('address_type')}}</label>
                                                                 <select class="form-control" name="billing_address_type" id="billing_address_type">

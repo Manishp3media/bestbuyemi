@@ -71,7 +71,7 @@ class SystemController extends Controller
 
         if (isset($shipping['save_address']) && $shipping['save_address'] == 'on') {
 
-            if ($shipping['contact_person_name'] == null || $shipping['address'] == null || $shipping['city'] == null || $shipping['zip'] == null || $shipping['country'] == null || ($is_guest && $shipping['email'] == null)) {
+            if ($shipping['contact_person_name'] == null || $shipping['address'] == null || $shipping['alternate_phone'] == null || $shipping['city'] == null || $shipping['zip'] == null || $shipping['country'] == null || ($is_guest && $shipping['email'] == null)) {
                 return response()->json([
                     'errors' => translate('Fill_all_required_fields_of_shipping_address')
                 ], 403);
@@ -195,6 +195,8 @@ class SystemController extends Controller
                     'zip' => $billing['billing_zip'],
                     'country' => $billing['billing_country'],
                     'phone' => $billing['billing_phone'],
+                    'alternate_phone' => $billing['alternate_phone'],
+                    'alternate_billing_phone' => $billing['alternate_billing_phone'],
                     'email' => auth('customer')->check() ? null : $billing['billing_contact_email'],
                     'latitude' => $billing['billing_latitude'],
                     'longitude' => $billing['billing_longitude'],

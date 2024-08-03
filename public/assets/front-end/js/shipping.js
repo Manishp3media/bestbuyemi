@@ -38,7 +38,7 @@ function shipping_method_select(get_value){
     let shipping_method_id = $('.select_shipping_address.active input[name="shipping_method_id"]').val()
     let shipping_value= JSON.parse(get_value);
     $('#name').val(shipping_value.contact_person_name);
-    $('#phone').val(shipping_value.phone);
+    // $('#phone').val(shipping_value.phone);
     $('#address').val(shipping_value.address);
     $('#city').val(shipping_value.city);
     $('#zip').val(shipping_value.zip);
