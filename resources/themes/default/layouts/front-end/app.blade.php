@@ -27,15 +27,18 @@
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/css/lightbox.css') }}">
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/back-end/vendor/icon-set/style.css') }}">
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/owl.carousel.min.css') }}">
+	
 
     @stack('css_or_js')
 
     @include(VIEW_FILE_NAMES['robots_meta_content_partials'])
 
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/home.css') }}"/>
+    <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/app_style.css') }}"/>
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/responsive1.css') }}"/>
 
     <link rel="stylesheet" href="{{ theme_asset(path: 'public/assets/front-end/css/style.css') }}">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
 
     <style>
         :root {

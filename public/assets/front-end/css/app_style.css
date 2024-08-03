@@ -1,0 +1,59 @@
+
+.wishlist-icon {
+    position: absolute;
+    right: 50px;
+    z-index: 1;
+    top: 30px;
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    text-align: center;
+    border-radius: 100%;
+    line-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-brandname p {
+    margin: 0px;
+	 color: #999999;
+    font-size: 15px;
+	text-transform: capitalize;
+	font-family: inter;
+	font-weight: 300;
+}
+ .productshortinfo p {
+    font-size: 14px;
+    font-weight: 400;
+	padding-top: 3px;
+	padding-bottom: 6px;
+	margin: 0px;
+}
+.productsku-details p {
+    margin: 0px;
+    padding-bottom: 6px;
+    font-size: 12px;
+    color: #999999;
+	font-family: 'Inter';
+    font-weight: 400;
+}
+.countryinfo p {
+    font-size: 12px;
+    font-family: 'Inter';
+    font-weight: 300;
+    color: #999999;
+    margin: 0px;
+    padding-bottom: 15px;
+}
+.taxpricetext p {
+    font-size: 12px;
+    font-weight: 400;
+    color: #999999;
+	    margin-bottom: 30px;
+}
+.for-mobile-capacity label.__text-12px {
+    padding: 25px 50px;
+    font-size: 16px;
+    line-height: 0px;
+}
