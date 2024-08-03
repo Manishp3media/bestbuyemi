@@ -34,8 +34,8 @@
     --breakpoint-md: 768px;
     --breakpoint-lg: 992px;
     --breakpoint-xl: 1280px;
-    --font-family-sans-serif: "Open Sans", sans-serif;
-    --font-family-monospace: "Open Sans", sans-serif;
+    --font-family-sans-serif:  "Space Grotesk", sans-serif;
+    --font-family-monospace:  "Space Grotesk", sans-serif;
 }
 
 *,
@@ -9058,6 +9058,7 @@ button.bg-accent:focus {
 .mr-0,
 .mx-0 {
     margin-right: 0 !important;
+	    margin-bottom: 30px;
 }
 
 .mb-0,
@@ -9110,7 +9111,7 @@ button.bg-accent:focus {
 
 .mb-2,
 .my-2 {
-    margin-bottom: 0.5rem !important;
+    margin-bottom: 30px !important;
 }
 
 .ml-2,
@@ -9148,7 +9149,7 @@ button.bg-accent:focus {
 
 .mt-4,
 .my-4 {
-    margin-top: 1.5rem !important;
+    margin-top: 60px;
 }
 
 .mr-4,
@@ -11746,7 +11747,7 @@ button.bg-accent:focus {
 }
 
 .text-dark {
-    color: #373f50 !important;
+    color: #393939 !important;
 }
 
 .text-body {

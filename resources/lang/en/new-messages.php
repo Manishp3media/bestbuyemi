@@ -8478,4 +8478,6 @@ return [
 	"pay_via_card" => "Pay via Credit/Debit Cards",
 	"pay_via_netbanking" => "Pay via Netbanking",
 	"pay_via_cardless" => "Pay Cardless",
+	"Ram" => "Ram",
+	"Storage" => "Storage",
 ];

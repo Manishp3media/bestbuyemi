@@ -11,7 +11,7 @@
     <div class="__inline-23">
         <div class="container mt-4 rtl text-align-direction">
             <div class="row {{Session::get('direction') === "rtl" ? '__dir-rtl' : ''}}">
-                <div class="col-lg-9 col-12">
+                <div class="col-lg-12 col-12">
                     <div class="row">
                         <div class="col-lg-5 col-md-4 col-12">
                             <div class="cz-product-gallery">
@@ -44,8 +44,7 @@
                                                 @endforeach
                                             @else
                                                 @foreach ($product->images_full_url as $key => $photo)
-                                                    <div
-                                                        class="product-preview-item d-flex align-items-center justify-content-center {{$key==0?'active':''}}"
+                                                    <div class="product-preview-item d-flex align-items-center justify-content-center {{$key==0?'active':''}}"
                                                         id="image{{$key}}">
                                                         <img class="cz-image-zoom img-responsive w-100"
                                                              src="{{ getStorageImages($photo, type: 'product') }}"
@@ -72,8 +71,10 @@
                                         </div>
                                     </button>
 
-                                    <div class="sharethis-inline-share-buttons share--icons text-align-direction">
-                                    </div>
+                                  
+									<div class="wishlist-icon">
+									<i class="navbar-tool-icon czi-heart"></i>
+									</div>
                                 </div>
 
                                 <div class="cz">
@@ -123,8 +124,16 @@
 
                         <div class="col-lg-7 col-md-8 col-12 mt-md-0 mt-sm-3 web-direction">
                             <div class="details __h-100">
+							    <div class="product-brandname"><p>{{$product->brand->name}}</p></div>
+								<div class="d-flex productshare-share-product-title">
+								 <div class="sharethis-inline-share-buttons share--icons text-align-direction">
+                                    </div> 
+								</div>
                                 <span class="mb-2 __inline-24">{{$product->name}}</span>
-                                <div class="d-flex flex-wrap align-items-center mb-2 pro">
+								<div class="productshortinfo"><p>(6GB RAM, 128GB, Black Diamond)</p></div>
+								<div class="productsku-details"><p>SKU: Redmi 13 5G (6GB RAM, 128GB, Black Diamond)</p></div>
+								<div class="countryinfo"><p>Country of Origin: {{$product->origin}}</p></div>
+                              <!-- <div class="d-flex flex-wrap align-items-center mb-2 pro">
                                     <div class="star-rating me-2">
                                         @for($inc=1;$inc<=5;$inc++)
                                             @if ($inc <= (int)$overallRating[0])
@@ -147,11 +156,12 @@
                                     <span
                                         class="font-regular font-for-tab d-inline-block font-size-sm text-body align-middle mt-1 {{Session::get('direction') === "rtl" ? 'mr-1 ml-md-2 ml-0 pr-md-2 pr-sm-1 pl-md-2 pl-sm-1' : 'ml-1 mr-md-2 mr-0 pl-md-2 pl-sm-1 pr-md-2 pr-sm-1'}} text-capitalize"> <span class="web-text-primary countWishlist-{{ $product->id }}"> {{$countWishlist}}</span> {{translate('wish_listed')}} </span>
 
-                                </div>
+                                </div> -->
                                 <div class="mb-3">
                                     <span class="font-weight-normal text-accent d-flex align-items-end gap-2">
                                         {!! getPriceRangeWithDiscount(product: $product) !!}
                                     </span>
+									<div class="taxpricetext"><p>(Inclusive of all taxes)</p></div>
                                 </div>
 
                                 <form id="add-to-cart-form" class="mb-2">
@@ -159,7 +169,7 @@
                                     <input type="hidden" name="id" value="{{ $product->id }}">
                                     <div
                                         class="position-relative {{Session::get('direction') === "rtl" ? 'ml-n4' : 'mr-n4'}} mb-2">
-                                        @if (count(json_decode($product->colors)) > 0)
+                                        @if (count(json_decode($product->colors)) > 0)	
                                             <div class="flex-start align-items-center mb-2">
                                                 <div
                                                     class="product-description-label m-0 text-dark font-bold">{{translate('color')}}
@@ -259,8 +269,8 @@
                                             <p> @isset($product['origin'])     <b>Origin :</b> <span class="badge badge-primary">{{ ucfirst($product['origin']) }}</span>         @endisset   @isset($product['weight'])        <b class="ml-3">Weight :</b> <span class="badge badge-info"> {{  round($product['weight']/1000, 1) }} Kg </span>                      @endisset </p>
                                     </div>
 
-                                    <div class="mt-3">
-                                        <div class="product-quantity d-flex flex-column __gap-15">
+                                    <!--<div class="mt-3">
+                                       <div class="product-quantity d-flex flex-column __gap-15">
                                             <div class="d-flex align-items-center gap-3">
                                                 <div class="product-description-label text-dark font-bold mt-0">
                                                     {{translate('quantity')}} :
@@ -306,9 +316,22 @@
                                                     </small>
                                                 </div>
                                             </div>
+                                        </div> 
+                                    </div> -->
+
+                                    <div class="row no-gutters d-none flex-start d-flex">
+                                        <div class="col-12">
+                                            @if(($product['product_type'] == 'physical'))
+                                                <h5 class="text-danger out-of-stock-element d--none">{{translate('out_of_stock')}}</h5>
+                                            @endif
                                         </div>
                                     </div>
+                                </form>
 
+                            </div>
+                        </div>
+                    </div>
+					
                                     <div class="__btn-grp mt-2 mb-3 d-none d-sm-flex">
                                         @if(($product->added_by == 'seller' && ($sellerTemporaryClose || (isset($product->seller->shop) && $product->seller->shop->vacation_status && $currentDate >= $sellerVacationStartDate && $currentDate <= $sellerVacationEndDate))) ||
                                          ($product->added_by == 'admin' && ($inHouseTemporaryClose || ($inHouseVacationStatus && $currentDate >= $inHouseVacationStartDate && $currentDate <= $inHouseVacationEndDate))))
@@ -328,7 +351,7 @@
                                                 <span class="string-limit">{{ translate('add_to_cart') }}</span>
                                             </button>
                                         @endif
-                                        <button type="button" data-product-id="{{ $product['id'] }}" class="btn __text-18px border d-none d-sm-block product-action-add-wishlist">
+                                        <!--<button type="button" data-product-id="{{ $product['id'] }}" class="btn __text-18px border d-none d-sm-block product-action-add-wishlist">
                                             <i class="fa {{($wishlistStatus == 1?'fa-heart':'fa-heart-o')}} wishlist_icon_{{$product['id']}} web-text-primary"
                                                aria-hidden="true"></i>
                                             <span class="fs-14 text-muted align-bottom countWishlist-{{$product['id']}}">{{$countWishlist}}</span>
@@ -338,7 +361,7 @@
                                                     <span class="remove">{{translate('removed_from_wishlist')}}</span>
                                                 </div>
                                             </div>
-                                        </button>
+                                        </button> -->
                                         @if(($product->added_by == 'seller' && ($sellerTemporaryClose || (isset($product->seller->shop) && $product->seller->shop->vacation_status && $currentDate >= $sellerVacationStartDate && $currentDate <= $sellerVacationEndDate))) ||
                                          ($product->added_by == 'admin' && ($inHouseTemporaryClose || ($inHouseVacationStatus && $currentDate >= $inHouseVacationStartDate && $currentDate <= $inHouseVacationEndDate))))
                                             <div class="alert alert-danger" role="alert">
@@ -346,19 +369,6 @@
                                             </div>
                                         @endif
                                     </div>
-
-                                    <div class="row no-gutters d-none flex-start d-flex">
-                                        <div class="col-12">
-                                            @if(($product['product_type'] == 'physical'))
-                                                <h5 class="text-danger out-of-stock-element d--none">{{translate('out_of_stock')}}</h5>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </form>
-
-                            </div>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="mt-4 rtl col-12 text-align-direction">
                             <div class="row">
@@ -606,7 +616,7 @@
                     </div>
 
                 </div>
-                <div class="col-lg-3">
+               <!-- <div class="col-lg-3">
                     @php($companyReliability = getWebConfig('company_reliability'))
                     @if($companyReliability != null)
                         <div class="product-details-shipping-details">
@@ -807,7 +817,7 @@
                             @include('web-views.partials._seller-products-product-details',['product'=>$item,'decimal_point_settings'=>$decimalPointSettings])
                         @endforeach
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 
