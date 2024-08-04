@@ -25,6 +25,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\Admin\ProductDenyRequest;
 use App\Http\Requests\ProductAddRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Jobs\ImportProducts;
 use App\Services\ProductService;
 use App\Traits\FileManagerTrait;
 use Brian2694\Toastr\Facades\Toastr;
@@ -32,9 +33,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Rap2hpoutre\FastExcel\FastExcel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-
+use Str;
 class ProductController extends BaseController
 {
     use FileManagerTrait {
@@ -540,16 +544,40 @@ class ProductController extends BaseController
 
     public function importNewBulkProduct(Request $request, ProductService $service): RedirectResponse
     {
-        $dataArray = $service->getNewImportBulkProductData(request: $request, addedBy: 'admin');
-        // dd($dataArray);
-        if (!$dataArray['status']) {
-            Toastr::error($dataArray['message']);
-            return back();
-        }
+        $path='product_excel/'.time();
+        $filePath = $request->file('products_file')->store($path);
 
-        $this->productRepo->addArray(data: $dataArray['products']);
-        Toastr::success($dataArray['message']);
-        return back();
+        // Import the data from the uploaded file
+        $rows = (new FastExcel)->import(storage_path('app/' . $filePath));
+
+        // Split the data into chunks of 10 records each
+        $chunks = $rows->chunk(10);
+
+        // Get the base name and extension of the original file
+        $baseName = pathinfo($filePath, PATHINFO_FILENAME);
+        $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+        $jobId = (string) Str::uuid();
+    DB::table('job_progress')->insert([
+        'job_id' => $jobId,
+        'total_jobs' => count($chunks),
+        'created_at' => now(),
+        'updated_at' => now(),
+    ]);
+        // Process each chunk, prepend the headers, and export as a new Excel file
+        foreach ($chunks as $index => $chunk) {
+
+            // Generate the new file name
+            $newFileName = $baseName . '_part_' . ($index + 1) . '.' . $extension;
+
+            // Export the chunk with headers to a new file
+            (new FastExcel($chunk))->export(storage_path('app/'.$path.'/'.$newFileName));
+            ImportProducts::dispatch('app/'.$path.'/'.$newFileName, 'admin', $jobId)->onQueue('product_import');
+        }
+        Storage::delete($filePath);
+
+            Toastr::success('Product uploading started ,we will notify once completed');
+            session()->put('job_id',$jobId);
+            return back();
     }
 
     public function updatedProductList(Request $request): View

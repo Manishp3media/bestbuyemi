@@ -92,6 +92,7 @@ use App\Http\Controllers\Admin\HelpAndSupport\ContactController;
 use App\Http\Controllers\Admin\HelpAndSupport\HelpTopicController;
 use App\Http\Controllers\Admin\HelpAndSupport\SupportTicketController;
 use App\Http\Controllers\Admin\InhouseProductSaleController;
+use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\Notification\NotificationController;
 use App\Http\Controllers\Admin\Notification\NotificationSetupController;
 use App\Http\Controllers\Admin\Notification\PushNotificationSettingsController;
@@ -1118,5 +1119,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['admin']],
         });
     });
 
+});
+
+Route::group(['prefix'=>'admin/job','as'=>'admin.job.'],function(){
+        Route::get('product-import/{id}',[JobController::class,'product_queue_record'])->name('product-import');
+        Route::get('product-import-report/{id}',[JobController::class,'product_import_report'])->name('product-import-report');
 });
 
