@@ -8497,4 +8497,13 @@ return [
 	"then_you_will_get_a_JSON_file" => "Then you will get a JSON file",
 	"copy_the_JSON_file_and_paste_it_into_the_Firebase_configuration_field" => "Copy the JSON file and paste it into the Firebase configuration field",
 	"_then_submit." => " then submit.",
+	"Main_Category_is_required" => "Main Category is required",
+	"job batches" => "Job batches",
+	"job progress" => "Job progress",
+	"payment method types" => "Payment method types",
+	"payu transactions" => "Payu transactions",
+	"product import fails" => "Product import fails",
+	"product_Bulk_Import_Report" => "Product Bulk Import Report",
+	"new_bulk_import_report" => "New bulk import report",
+	"product_Bulk_import_report" => "Product Bulk import report",
 ];

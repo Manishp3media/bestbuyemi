@@ -53,11 +53,26 @@
 
                                     </div>
                                 </div>
+                                @if(session()->has('job_id'))
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="progress mt-3" style="height: 20px;">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <a href="{{ route('admin.job.product-import-report',session()->get('job_id')) }}" class="btn btn-danger ">View Report of job {{ session()->get('job_id') }}</a>
+                                    </div>
+                                </div>
+                                @endif
+
                             </div>
                             <div class="d-flex flex-wrap gap-10 align-items-center justify-content-end">
                                 <button type="reset" class="btn btn-secondary px-4 action-onclick-reload-page">{{translate('reset')}}</button>
                                 <button type="submit" class="btn btn--primary px-4">{{translate('submit')}}</button>
                             </div>
+
+
                         </div>
                     </div>
                 </form>
@@ -65,3 +80,35 @@
         </div>
     </div>
 @endsection
+@push('script')
+<script>
+$(document).ready(function() {
+    @if(session()->has('job_id'))
+    function updateProgressBar() {
+        $.ajax({
+            url: '{{ url("admin/job/product-import") }}/{{ session()->get("job_id") }}',
+            method: 'GET',
+            success: function(response) {
+                if (response && response.percentage !== undefined) {
+                    const percentage = response.percentage.toFixed(2);
+                    $('.progress-bar').css('width', `${percentage}%`).attr('aria-valuenow', percentage);
+                    $('.progress-bar').text(`${percentage}%`);
+
+                    // Check if job is completed
+                    if (percentage >= 100) {
+                        clearInterval(intervalId);
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching progress:", error);
+            }
+        });
+    }
+
+    // Call updateProgressBar every 5 seconds
+    const intervalId = setInterval(updateProgressBar, 5000);
+    @endif
+});
+</script>
+@endpush
