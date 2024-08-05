@@ -11,8 +11,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Laravel\Passport\HasApiTokens;
-
+use Illuminate\Support\Str;
 /**
  * Class User
  *
@@ -65,6 +67,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'id',
+        'uuid',
         'name',
         'f_name',
         'l_name',
@@ -209,6 +212,46 @@ class User extends Authenticatable
     protected static function boot(): void
     {
         parent::boot();
+        static::creating(function ($user) {
+            $user->uuid = (string) Str::uuid();
+        });
+
+        static::created(function ($user){
+            // Define the URL and tokens
+            $url = 'https://app.wigzo.com/rest/v1/learn/identify';
+            $token = '935966a282624121a7d21db2e233493a';
+            $orgToken = 'JWF0V4pWQtOPjrX52QgAxA';
+
+            // Define the data to send
+            $data = [
+                'userId' => $user->uuid,
+                'email' => $user->email ?? Null,
+                'phone' => $user->phone,
+                'is_active' => true,
+                'source' => 'web',
+            ];
+
+            $data1 = [
+                'eventName' => 'send_otp',
+                'eventval' => [
+                    'phone' => '+91'.$user->phone,
+                    'otp' => '1234'
+                ],
+                'eventCategory' => 'EXTERNAL',
+                'userId' => $user->uuid,
+                'is_active' => true,
+                'source' => 'web'
+            ];
+
+            // Make the POST request for creating wizgo customer
+            $response = Http::post("$url?token=$token&org_token=$orgToken", $data);
+            Log::info('wizgo cust'. json_encode($response->json()));
+
+            // Make the POST request for creating wizgo customer
+            $response1 = Http::post("$url?token=$token&org_token=$orgToken", $data1);
+            Log::info('wizgo event'. json_encode($response1->json()));
+        });
+
         static::saved(function ($model) {
             if($model->isDirty('image')){
                 $storage = config('filesystems.disks.default') ?? 'public';

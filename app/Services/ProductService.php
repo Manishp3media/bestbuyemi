@@ -629,148 +629,160 @@ class ProductService
     public function getNewImportBulkProductData($row, $addedBy,$jobId=null)
     {
         $products = [];
-    try {
-        // Check if there are any collections
-        if (count($row) <= 0) {
-            throw new \Exception('No data Found In Row');
-        }
-
-        $choiceOptions = [];
-        $attribute_ids = [];
-        $variations = [];
-        $images_arr = [];
-        $thumbnailFileName = null;
-
-        // Validate required columns
-        $requiredColumns = ['product_name', 'category_name', 'brand_name', 'product_price'];
-        foreach ($requiredColumns as $column) {
-            if (empty($row[$column])) {
-                throw new \Exception('Missed Required Field: ' . $column);
+        try {
+            // Check if there are any collections
+            if (count($row) <= 0) {
+                throw new \Exception('No data Found In Row');
             }
-        }
 
-        // Handle the thumbnail image
-        if (isset($row['thumbnail'])) {
-            $img_url = $row['thumbnail'];
-            $path = parse_url($img_url, PHP_URL_PATH);
-            $thumbnailFileName = basename($path);
+            $choiceOptions = [];
+            $attribute_ids = [];
+            $variations = [];
+            $images_arr = [];
+            $feature_arr = [];
+            $thumbnailFileName = null;
 
-            $response = Http::get($img_url);
-            if ($response->successful()) {
-                $imageContents = $response->body();
-                $filePath = 'public/product/thumbnail/' . $thumbnailFileName;
-                Storage::put($filePath, $imageContents);
-            } else {
-                throw new \Exception('Image Not Available: ' . $img_url);
-            }
-        }
-
-        // Process options
-        for ($i = 1; $i <= 4; $i++) {
-            $optionNameKey = 'option_name_' . $i;
-            $optionValueKey = 'option_value_' . $i;
-
-            if (isset($row[$optionNameKey]) && $row[$optionNameKey] !== "") {
-                $options = array_map('trim', explode(',', $row[$optionValueKey]));
-                $attr = Attribute::where('name', $row[$optionNameKey])->first();
-
-                if ($attr) {
-                    $attribute_ids[] = $attr->id;
-                    $choiceOptions[] = [
-                        'name' => 'choice_' . $i,
-                        'title' => $row[$optionNameKey],
-                        'options' => $options,
-                    ];
+            // Validate required columns
+            $requiredColumns = ['product_name', 'category_name', 'brand_name', 'product_price'];
+            foreach ($requiredColumns as $column) {
+                if (empty($row[$column])) {
+                    throw new \Exception('Missed Required Field: ' . $column);
                 }
             }
-        }
 
-        // Handle additional images
-        for ($i = 1; $i <= 4; $i++) {
-            $optionNameKey = 'image_url_' . $i;
+            //Feature process
+            if ($row['feature-1'] || $row['feature-2'] || $row['feature-3'] || $row['feature-4'] || $row['feature-5'] || $row['feature-6'] || $row['feature-7'] || $row['feature-8'] || $row['feature-9'] || $row['feature-10'] ) {
+                foreach (range(1, 10) as $i) {
+                    $optionKey = 'feature-' . $i;
+                    if (!empty($row[$optionKey])) {
+                        $feature_arr[] = [$optionKey => $row[$optionKey]];
+                    }
+                }
+            }
 
-            if (isset($row[$optionNameKey]) && $row[$optionNameKey] !== "") {
-                $img_url = $row[$optionNameKey];
+            // Handle the thumbnail image
+            if (isset($row['thumbnail'])) {
+                $img_url = $row['thumbnail'];
                 $path = parse_url($img_url, PHP_URL_PATH);
-                $imagesFileName = basename($path);
+                $thumbnailFileName = basename($path);
 
                 $response = Http::get($img_url);
                 if ($response->successful()) {
                     $imageContents = $response->body();
-                    $filePath = 'public/product/' . $imagesFileName;
+                    $filePath = 'public/product/thumbnail/' . $thumbnailFileName;
                     Storage::put($filePath, $imageContents);
-
-                    $images_arr[] = $imagesFileName;
                 } else {
-                    throw new \Exception('Image fail download: ' . $img_url);
+                    throw new \Exception('Image Not Available: ' . $img_url);
                 }
             }
+
+            // Process options
+            for ($i = 1; $i <= 4; $i++) {
+                $optionNameKey = 'option_name_' . $i;
+                $optionValueKey = 'option_value_' . $i;
+
+                if (isset($row[$optionNameKey]) && $row[$optionNameKey] !== "") {
+                    $options = array_map('trim', explode(',', $row[$optionValueKey]));
+                    $attr = Attribute::where('name', $row[$optionNameKey])->first();
+
+                    if ($attr) {
+                        $attribute_ids[] = $attr->id;
+                        $choiceOptions[] = [
+                            'name' => 'choice_' . $i,
+                            'title' => $row[$optionNameKey],
+                            'options' => $options,
+                        ];
+                    }
+                }
+            }
+
+            // Handle additional images
+            for ($i = 1; $i <= 4; $i++) {
+                $optionNameKey = 'image_url_' . $i;
+
+                if (isset($row[$optionNameKey]) && $row[$optionNameKey] !== "") {
+                    $img_url = $row[$optionNameKey];
+                    $path = parse_url($img_url, PHP_URL_PATH);
+                    $imagesFileName = basename($path);
+
+                    $response = Http::get($img_url);
+                    if ($response->successful()) {
+                        $imageContents = $response->body();
+                        $filePath = 'public/product/' . $imagesFileName;
+                        Storage::put($filePath, $imageContents);
+
+                        $images_arr[] = $imagesFileName;
+                    } else {
+                        throw new \Exception('Image fail download: ' . $img_url);
+                    }
+                }
+            }
+
+            // Find existing category, sub-category, and brand
+            $category = Category::where(DB::raw('LOWER(name)'), strtolower($row['category_name']))->first();
+            if (!$category) {
+                throw new \Exception('Category Not Available: ' . $row['category_name']);
+            }
+
+            $sub_category = Category::where(DB::raw('LOWER(name)'), strtolower($row['sub_category_name']))
+                ->where('parent_id', $category->id)
+                ->first();
+            if (!$sub_category) {
+                throw new \Exception('Sub-Category Not Available: ' . $row['sub_category_name']);
+            }
+
+            $brand = Brand::where(DB::raw('LOWER(name)'), strtolower($row['brand_name']))->first();
+            if (!$brand) {
+                throw new \Exception('Brand Not Available: ' . $row['brand_name']);
+            }
+
+            // Prepare product data for insertion
+            $productData = [
+                'name' => $row['product_name'],
+                'slug' => Str::slug($row['product_name'], '-') . '-' . Str::random(6),
+                'category_id' => $category->id,
+                'sub_category_id' => $sub_category->id,
+                'brand_id' => $brand->id,
+                'code' => $row['sku'] ?? null,
+                'weight' => $row['weight'] ?? null,
+                'origin' => $row['origin'] ?? null,
+                'hsn_sac_code' => $row['hsn_sac_code'] ?? null,
+                'unit' => $row['unit'] ?? 'pc',
+                'minimum_order_qty' => $row['minimum_order_qty'],
+                'unit_price' => $row['product_price'],
+                'purchase_price' => 0,
+                'tax' => $row['tax'] ?? null,
+                'discount' => $row['discount'],
+                'discount_type' => $row['discount_type'],
+                'shipping_cost' => 0,
+                'current_stock' => $row['current_stock'] ?? 1,
+                'details' => $row['product_description'],
+                'features' => json_encode($feature_arr),
+                'meta_title' => $row['meta_title'],
+                'meta_description' => $row['meta_description'],
+                'video_provider' => 'youtube',
+                'video_url' => $row['youtube_video_code1'],
+                'images' => json_encode($images_arr),
+                'thumbnail' => $thumbnailFileName,
+                'status' => 0,
+                'request_status' => 1,
+                'colors' => json_encode([]),
+                'attributes' => json_encode($attribute_ids),
+                'choice_options' => json_encode($choiceOptions),
+                'variation' => json_encode([]),
+                'featured_status' => 0,
+                'added_by' => $addedBy,
+                'user_id' => $addedBy == 'admin' ? auth('admin')->id() : auth('seller')->id(),
+                'created_at' => now(),
+            ];
+
+            // Save product to database
+            $product = Product::create($productData);
+            $products[] = $product;
+
+        } catch (\Exception $exception) {
+            DB::table('product_import_fails')->insert(['error'=>$exception->getMessage(),'data_complete'=>json_encode($row),'product_name'=>$row['product_name']??'N/A','job_id'=>$jobId]);
         }
-
-        // Find existing category, sub-category, and brand
-        $category = Category::where(DB::raw('LOWER(name)'), strtolower($row['category_name']))->first();
-        if (!$category) {
-            throw new \Exception('Category Not Available: ' . $row['category_name']);
-        }
-
-        $sub_category = Category::where(DB::raw('LOWER(name)'), strtolower($row['sub_category_name']))
-            ->where('parent_id', $category->id)
-            ->first();
-        if (!$sub_category) {
-            throw new \Exception('Sub-Category Not Available: ' . $row['sub_category_name']);
-        }
-
-        $brand = Brand::where(DB::raw('LOWER(name)'), strtolower($row['brand_name']))->first();
-        if (!$brand) {
-            throw new \Exception('Brand Not Available: ' . $row['brand_name']);
-        }
-
-        // Prepare product data for insertion
-        $productData = [
-            'name' => $row['product_name'],
-            'slug' => Str::slug($row['product_name'], '-') . '-' . Str::random(6),
-            'category_id' => $category->id,
-            'sub_category_id' => $sub_category->id,
-            'brand_id' => $brand->id,
-            'code' => $row['sku'] ?? null,
-            'weight' => $row['weight'] ?? null,
-            'origin' => $row['origin'] ?? null,
-            'hsn_sac_code' => $row['hsn_sac_code'] ?? null,
-            'unit' => $row['unit'] ?? 'pc',
-            'minimum_order_qty' => $row['minimum_order_qty'],
-            'unit_price' => $row['product_price'],
-            'purchase_price' => 0,
-            'tax' => $row['tax'] ?? null,
-            'discount' => $row['discount'],
-            'discount_type' => $row['discount_type'],
-            'shipping_cost' => 0,
-            'current_stock' => $row['current_stock'] ?? 1,
-            'details' => $row['product_description'],
-            'meta_title' => $row['meta_title'],
-            'meta_description' => $row['meta_description'],
-            'video_provider' => 'youtube',
-            'video_url' => $row['youtube_video_code1'],
-            'images' => json_encode($images_arr),
-            'thumbnail' => $thumbnailFileName,
-            'status' => 0,
-            'request_status' => 1,
-            'colors' => json_encode([]),
-            'attributes' => json_encode($attribute_ids),
-            'choice_options' => json_encode($choiceOptions),
-            'variation' => json_encode([]),
-            'featured_status' => 0,
-            'added_by' => $addedBy,
-            'user_id' => $addedBy == 'admin' ? auth('admin')->id() : auth('seller')->id(),
-            'created_at' => now(),
-        ];
-
-        // Save product to database
-        $product = Product::create($productData);
-        $products[] = $product;
-
-    } catch (\Exception $exception) {
-        DB::table('product_import_fails')->insert(['error'=>$exception->getMessage(),'data_complete'=>json_encode($row),'product_name'=>$row['product_name']??'N/A','job_id'=>$jobId]);
-    }
     }
     public function checkLimitedStock(object $products): bool
     {

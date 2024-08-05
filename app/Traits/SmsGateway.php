@@ -12,6 +12,11 @@ trait  SmsGateway
 {
     public static function send($receiver, $otp): string
     {
+        $config = self::get_settings('wizgo');
+        if (isset($config) && $config['status'] == 1) {
+            return self::wizgo($receiver, $otp);
+        }
+
         $config = self::get_settings('twilio');
         if (isset($config) && $config['status'] == 1) {
             return self::twilio($receiver, $otp);
@@ -87,6 +92,32 @@ trait  SmsGateway
         return 'not_found';
     }
 
+    public static function wizgo($receiver, $otp): string
+    {
+        $config = self::get_settings('wizgo');
+        $response = 'error';
+        if (isset($config) && $config['status'] == 1) {
+            $message = str_replace("#OTP#", $otp, $config['otp_template']);
+            $token = 'd07a02d16de54b02904b7bc68d2b252a';
+            $org_token = '9Ky4l495RCqJ5e-kiUrPPQ';
+            try {
+                $response = Http::post('https://app.wigzo.com/rest/v1/learn/event', [
+                    'token' => $token,
+                    'org_token' => $org_token,
+                    'eventName' => 'send_otp',
+                    'eventval' => [
+                        'phone' => '+91'.$receiver,
+                        'otp' => $otp
+                    ]
+                ]);
+
+                $response->json();
+            } catch (\Exception $exception) {
+                $response = 'error';
+            }
+        }
+        return $response;
+    }
     public static function twilio($receiver, $otp): string
     {
         $config = self::get_settings('twilio');
