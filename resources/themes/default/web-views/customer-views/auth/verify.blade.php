@@ -86,6 +86,8 @@
 
 
     <script>
-        wigzo ("sendotp", "1234", "+917309055631");    // For example this is how you can call Wigzo track API method.
+        $(document).ready(function(){
+            wigzo ("sendotp", "1234", "+917309055631");    // For example this is how you can call Wigzo track API method.
+        });
     </script>
 @endpush
