@@ -83,4 +83,9 @@
 
 @push('script')
     <script src="{{ theme_asset(path: 'public/assets/front-end/js/verify-otp.js') }}"></script>
+
+
+    <script>
+        wigzo ("sendotp", "1234", "+917309055631");    // For example this is how you can call Wigzo track API method.
+    </script>
 @endpush
