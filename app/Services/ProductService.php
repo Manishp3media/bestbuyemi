@@ -764,7 +764,7 @@ class ProductService
                 'video_url' => $row['youtube_video_code1'],
                 'images' => json_encode($images_arr),
                 'thumbnail' => $thumbnailFileName,
-                'status' => 0,
+                'status' => 1,
                 'request_status' => 1,
                 'colors' => json_encode([]),
                 'attributes' => json_encode($attribute_ids),
