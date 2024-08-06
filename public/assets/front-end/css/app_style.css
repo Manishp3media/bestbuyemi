@@ -1,4 +1,10 @@
-
+.product-thumb-stickybar .productthumbnail{background-color: #ffffff;
+    border-radius: 10px;
+    padding: 10px;
+    width: 80px;}
+	.navbar.navbar-expand-md.headermenus {
+     background-color: #fafafc;
+}
 .wishlist-icon {
     position: absolute;
     right: 50px;
@@ -13,6 +19,84 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.d-flex.innerwrapper-content {
+    justify-content: space-between;
+	align-items: center;
+}
+ul.navbar-nav.menuitems li a {
+    font-size: 14px;
+    font-family: Helvetica;
+    font-weight: 600;
+    color: #2B2B2B !important;
+}
+.productprice span.discounted_unit_price.fs-24.font-bold {
+    font-size: 14px;
+}
+.text-primary-color{color:var(--text-primary)}
+.font-weight-normal.text-primary-color.d-flex.align-items-end.gap-2.font-26 span.discounted_unit_price.fs-24.font-bold {
+    font-size: 24px;
+}
+.btn-style-black {
+    background-color: var(--lightblack);
+    color: var(--light);
+    border-radius: 25px;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 40px;
+}
+.relatedproducts {
+    padding: 100px 0px;
+}
+.relatedproductgrid {
+    background-color: unset;
+    box-shadow: unset;
+}
+.wrappertop-section {
+    padding-top: 100px;
+}
+.productsingle {
+    margin-left: 100px;
+}
+.quantitybox {
+    margin-left: 100px;
+}	
+.productprice .price-product {
+    font-size: 18px;
+    color: #393939;
+    font-weight: 500;
+	margin: 0px;
+}
+ 
+.btnwrapper {
+    gap: 15px;
+}
+.wrapper-product-action {
+    background: #F3F3F3;
+    padding: 18px 0px;
+	margin-top: 100px;
+}
+.imagewithtitletext {
+    gap: 25px;
+	align-items: center;
+}
+button.btn-primary-black {
+    font-size: 16px;
+    text-transform: uppercase;
+    font-family: 'Space Grotesk';
+    color: #ffffff;
+    padding: 5px 30px;
+    background: #021a4a;
+	border-radius: 30px;
+}
+ 
+.producttitle .productname {
+    font-size: 16px;
+    font-family: 'Space Grotesk';
+    font-weight: 400;
+    margin: 0px;
+    padding-bottom: 5px;
 }
 
 .product-brandname p {
@@ -38,6 +122,10 @@
 	font-family: 'Inter';
     font-weight: 400;
 }
+.for-mobile-capacity label.__text-12px:hover {
+	
+	border-color:unset;
+}
 .countryinfo p {
     font-size: 12px;
     font-family: 'Inter';
@@ -50,10 +138,11 @@
     font-size: 12px;
     font-weight: 400;
     color: #999999;
-	    margin-bottom: 30px;
+	margin-bottom: 30px;
 }
 .for-mobile-capacity label.__text-12px {
-    padding: 25px 50px;
+    padding: 22px 44px;
     font-size: 16px;
     line-height: 0px;
+	background: #F3F3F3;
 }

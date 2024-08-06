@@ -10,7 +10,7 @@
 
 
 <header class="rtl __inline-10">
-    <div class="topbar">
+    <!--<div class="topbar">
         <div class="container">
             <div>
                 <div class="topbar-text dropdown d-md-none ms-auto">
@@ -72,7 +72,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
     <div class="navbar-sticky bg-light mobile-head">
@@ -94,7 +94,7 @@
                          alt="{{$web_config['name']->value}}"/>
                 </a>
 
-                <div class="input-group-overlay mx-lg-4 search-form-mobile text-align-direction">
+                <!--<div class="input-group-overlay mx-lg-4 search-form-mobile text-align-direction">
                     <form action="{{route('products')}}" type="submit" class="search_form">
                         <div class="d-flex align-items-center gap-2">
                             <input class="form-control appended-form-control search-bar-input" type="search"
@@ -121,93 +121,14 @@
                             </div>
                         </diV>
                     </form>
-                </div>
+                </div>--->
 
-                <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
-                    <a class="navbar-tool navbar-stuck-toggler" href="#">
-                        <span class="navbar-tool-tooltip">{{ translate('expand_Menu') }}</span>
-                        <div class="navbar-tool-icon-box">
-                            <i class="navbar-tool-icon czi-menu open-icon"></i>
-                            <i class="navbar-tool-icon czi-close close-icon"></i>
-                        </div>
-                    </a>
-                    <div class="navbar-tool open-search-form-mobile d-lg-none {{Session::get('direction') === "rtl" ? 'mr-md-3' : 'ml-md-3'}}">
-                        <a class="navbar-tool-icon-box bg-secondary" href="javascript:">
-                            <i class="tio-search"></i>
-                        </a>
-                    </div>
-                    <div class="navbar-tool dropdown d-none d-md-block {{Session::get('direction') === "rtl" ? 'mr-md-3' : 'ml-md-3'}}">
-                        <a class="navbar-tool-icon-box bg-secondary dropdown-toggle" href="{{route('wishlists')}}">
-                            <span class="navbar-tool-label">
-                                <span class="countWishlist">
-                                    {{session()->has('wish_list')?count(session('wish_list')):0}}
-                                </span>
-                           </span>
-                            <i class="navbar-tool-icon czi-heart"></i>
-                        </a>
-                    </div>
-                    @if(auth('customer')->check())
-                        <div class="dropdown">
-                            <a class="navbar-tool ml-3" type="button" data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false">
-                                <div class="navbar-tool-icon-box bg-secondary">
-                                    <div class="navbar-tool-icon-box bg-secondary">
-                                        <img class="img-profile rounded-circle __inline-14" alt=""
-                                             src="{{ getStorageImages(path: auth('customer')->user()->image_full_url, type: 'avatar') }}">
-                                    </div>
-                                </div>
-                                <div class="navbar-tool-text">
-                                    <small>{{ translate('hello')}}, {{auth('customer')->user()->f_name}}</small>
-                                    {{ translate('dashboard')}}
-                                </div>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}"
-                                 aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item"
-                                   href="{{route('account-oder')}}"> {{ translate('my_Order')}} </a>
-                                <a class="dropdown-item"
-                                   href="{{route('user-account')}}"> {{ translate('my_Profile')}}</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item"
-                                   href="{{route('customer.auth.logout')}}">{{ translate('logout')}}</a>
-                            </div>
-                        </div>
-                    @else
-                        <div class="dropdown">
-                            <a class="navbar-tool {{Session::get('direction') === "rtl" ? 'mr-md-3' : 'ml-md-3'}}"
-                               type="button" data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false">
-                                <div class="navbar-tool-icon-box bg-secondary">
-                                    <div class="navbar-tool-icon-box bg-secondary">
-                                        <svg width="16" height="17" viewBox="0 0 16 17" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M4.25 4.41675C4.25 6.48425 5.9325 8.16675 8 8.16675C10.0675 8.16675 11.75 6.48425 11.75 4.41675C11.75 2.34925 10.0675 0.666748 8 0.666748C5.9325 0.666748 4.25 2.34925 4.25 4.41675ZM14.6667 16.5001H15.5V15.6667C15.5 12.4509 12.8825 9.83341 9.66667 9.83341H6.33333C3.11667 9.83341 0.5 12.4509 0.5 15.6667V16.5001H14.6667Z"
-                                                  fill="#1B7FED"/>
-                                        </svg>
-
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="text-align-direction dropdown-menu __auth-dropdown dropdown-menu-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}"
-                                 aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{route('customer.auth.login')}}">
-                                    <i class="fa fa-sign-in mr-2"></i> {{ translate('sign_in')}}
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{route('customer.auth.sign-up')}}">
-                                    <i class="fa fa-user-circle mr-2"></i>{{ translate('sign_up')}}
-                                </a>
-                            </div>
-                        </div>
-                    @endif
-                    <div id="cart_items">
-                        @include('layouts.front-end.partials._cart')
-                    </div>
-                </div>
+                
             </div>
         </div>
-        <div class="navbar navbar-expand-md navbar-stuck-menu">
+        <div class="navbar navbar-expand-md  headermenus">
             <div class="container px-10px">
+			<div class="d-flex justify-content-space-between align-items-center wrapperprimary-header w-100"> 
                 <div class="collapse navbar-collapse text-align-direction" id="navbarCollapse">
                     <div class="w-100 d-md-none text-align-direction">
                         <button class="navbar-toggler p-0" type="button" data-toggle="collapse"
@@ -222,9 +143,9 @@
                         </li>
                     </ul>
 
-                    @php($categories = \App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting(dataLimit: 11))
+                    <!--@php($categories = \App\Utils\CategoryManager::getCategoriesWithCountingAndPriorityWiseSorting(dataLimit: 11))-->
 
-                    <ul class="navbar-nav mega-nav pr-lg-2 pl-lg-2 mr-2 d-none d-md-block __mega-nav">
+                  <!--  <ul class="navbar-nav mega-nav pr-lg-2 pl-lg-2 mr-2 d-none d-md-block __mega-nav">
                         <li class="nav-item {{!request()->is('/')?'dropdown':''}}">
 
                             <a class="nav-link dropdown-toggle category-menu-toggle-btn ps-0"
@@ -240,7 +161,7 @@
                                 </span>
                             </a>
                         </li>
-                    </ul>
+                    </ul>-->
 
                     <ul class="navbar-nav mega-nav1 pr-md-2 pl-md-2 d-block d-xl-none">
                         <li class="nav-item dropdown d-md-none">
@@ -309,7 +230,7 @@
                         </li>
                     </ul>
 
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav menuitems">
                         <li class="nav-item dropdown d-none d-md-block {{request()->is('/')?'active':''}}">
                             <a class="nav-link" href="{{route('home')}}">{{ translate('home')}}</a>
                         </li>
@@ -426,7 +347,10 @@
                             @endif
                         @endif
                     </ul>
-                    @if(auth('customer')->check())
+                   
+
+
+				   @if(auth('customer')->check())
                         <div class="logout-btn mt-auto d-md-none">
                             <hr>
                             <a href="{{route('customer.auth.logout')}}" class="nav-link">
@@ -435,6 +359,91 @@
                         </div>
                     @endif
                 </div>
+				
+				<div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
+                  <!--  <a class="navbar-tool navbar-stuck-toggler" href="#">
+                        <span class="navbar-tool-tooltip">{{ translate('expand_Menu') }}</span>
+                        <div class="navbar-tool-icon-box">
+                            <i class="navbar-tool-icon czi-menu open-icon"></i>
+                            <i class="navbar-tool-icon czi-close close-icon"></i>
+                        </div>
+                    </a>-->
+                    <div class="navbar-tool open-search-form-mobile {{Session::get('direction') === "rtl" ? 'mr-md-3' : 'ml-md-3'}}">
+                        <a class="navbar-tool-icon-box bg-secondary" href="javascript:">
+                            <i class="tio-search"></i>
+                        </a>
+                    </div>
+					
+					
+                    <div class="navbar-tool dropdown d-none d-md-block {{Session::get('direction') === "rtl" ? 'mr-md-3' : 'ml-md-3'}}">
+                        <a class="navbar-tool-icon-box bg-secondary dropdown-toggle" href="{{route('wishlists')}}">
+                            <span class="navbar-tool-label">
+                                <span class="countWishlist">
+                                    {{session()->has('wish_list')?count(session('wish_list')):0}}
+                                </span>
+                           </span>
+                            <i class="navbar-tool-icon czi-heart"></i>
+                        </a>
+                    </div>
+                    @if(auth('customer')->check())
+                        <div class="dropdown">
+                            <a class="navbar-tool ml-3" type="button" data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                <div class="navbar-tool-icon-box bg-secondary">
+                                    <div class="navbar-tool-icon-box bg-secondary">
+                                        <img class="img-profile rounded-circle __inline-14" alt=""
+                                             src="{{ getStorageImages(path: auth('customer')->user()->image_full_url, type: 'avatar') }}">
+                                    </div>
+                                </div>
+                                <div class="navbar-tool-text">
+                                    <small>{{ translate('hello')}}, {{auth('customer')->user()->f_name}}</small>
+                                    {{ translate('dashboard')}}
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}"
+                                 aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item"
+                                   href="{{route('account-oder')}}"> {{ translate('my_Order')}} </a>
+                                <a class="dropdown-item"
+                                   href="{{route('user-account')}}"> {{ translate('my_Profile')}}</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item"
+                                   href="{{route('customer.auth.logout')}}">{{ translate('logout')}}</a>
+                            </div>
+                        </div>
+                    @else
+                        <div class="dropdown">
+                            <a class="navbar-tool {{Session::get('direction') === "rtl" ? 'mr-md-3' : 'ml-md-3'}}"
+                               type="button" data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                <div class="navbar-tool-icon-box bg-secondary">
+                                    <div class="navbar-tool-icon-box bg-secondary">
+                                        <svg width="16" height="17" viewBox="0 0 16 17" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4.25 4.41675C4.25 6.48425 5.9325 8.16675 8 8.16675C10.0675 8.16675 11.75 6.48425 11.75 4.41675C11.75 2.34925 10.0675 0.666748 8 0.666748C5.9325 0.666748 4.25 2.34925 4.25 4.41675ZM14.6667 16.5001H15.5V15.6667C15.5 12.4509 12.8825 9.83341 9.66667 9.83341H6.33333C3.11667 9.83341 0.5 12.4509 0.5 15.6667V16.5001H14.6667Z"
+                                                  fill="#1B7FED"/>
+                                        </svg>
+
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="text-align-direction dropdown-menu __auth-dropdown dropdown-menu-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}"
+                                 aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{{route('customer.auth.login')}}">
+                                    <i class="fa fa-sign-in mr-2"></i> {{ translate('sign_in')}}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{route('customer.auth.sign-up')}}">
+                                    <i class="fa fa-user-circle mr-2"></i>{{ translate('sign_up')}}
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                    <div id="cart_items">
+                        @include('layouts.front-end.partials._cart')
+                    </div>
+                </div>
+				</div>
             </div>
         </div>
 

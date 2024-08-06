@@ -1,5 +1,6 @@
+
 <div class="__inline-9 rtl">
-    <div class="text-center pb-4">
+    <!--<div class="text-center pb-4">
         <div class="max-w-860px mx-auto footer-slider-container">
             <div class="container">
                 <div class="footer-slider owl-theme owl-carousel">
@@ -54,7 +55,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <footer class="page-footer font-small mdb-color rtl">
         <div class="pt-4 custom-light-primary-color-20">

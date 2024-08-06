@@ -9,9 +9,10 @@
 
 @section('content')
     <div class="__inline-23">
-        <div class="container mt-4 rtl text-align-direction">
-            <div class="row {{Session::get('direction') === "rtl" ? '__dir-rtl' : ''}}">
-                <div class="col-lg-12 col-12">
+        <div class="rtl text-align-direction">
+            <div class="product-wraper-single {{Session::get('direction') === "rtl" ? '__dir-rtl' : ''}}">
+                <div class="wrappertop-section">
+                    <div class="container">
                     <div class="row">
                         <div class="col-lg-5 col-md-4 col-12">
                             <div class="cz-product-gallery">
@@ -121,9 +122,9 @@
                                 </div>
                             </div>
                         </div>
-
+						
                         <div class="col-lg-7 col-md-8 col-12 mt-md-0 mt-sm-3 web-direction">
-                            <div class="details __h-100">
+                            <div class="productsingle __h-100">
 							    <div class="product-brandname"><p>{{$product->brand->name}}</p></div>
 								<div class="d-flex productshare-share-product-title">
 								 <div class="sharethis-inline-share-buttons share--icons text-align-direction">
@@ -158,7 +159,7 @@
 
                                 </div> -->
                                 <div class="mb-3">
-                                    <span class="font-weight-normal text-accent d-flex align-items-end gap-2">
+                                    <span class="font-weight-normal text-primary-color d-flex align-items-end gap-2 font-26">
                                         {!! getPriceRangeWithDiscount(product: $product) !!}
                                     </span>
 									<div class="taxpricetext"><p>(Inclusive of all taxes)</p></div>
@@ -268,16 +269,18 @@
                                     <div class="text-dark">
                                             <p> @isset($product['origin'])     <b>Origin :</b> <span class="badge badge-primary">{{ ucfirst($product['origin']) }}</span>         @endisset   @isset($product['weight'])        <b class="ml-3">Weight :</b> <span class="badge badge-info"> {{  round($product['weight']/1000, 1) }} Kg </span>                      @endisset </p>
                                     </div>
+                        </div>
 
-                                    <!--<div class="mt-3">
-                                       <div class="product-quantity d-flex flex-column __gap-15">
+
+                                    <div class="mt-3">
+                                       <div class="quantitybox product-quantity d-flex flex-column __gap-15">
                                             <div class="d-flex align-items-center gap-3">
                                                 <div class="product-description-label text-dark font-bold mt-0">
                                                     {{translate('quantity')}} :
                                                 </div>
                                                 <div class="d-flex justify-content-center align-items-center quantity-box border rounded border-base web-text-primary">
                                                     <span class="input-group-btn">
-                                                        <button class="btn btn-number __p-10 web-text-primary" type="button"
+                                                        <button class="btn btn-number __p-10 web-text-primary minusbtn" type="button"
                                                                 data-type="minus" data-field="quantity"
                                                                 disabled="disabled">
                                                             -
@@ -301,7 +304,7 @@
                                                 <input type="hidden" class="product-generated-variation-code" name="product_variation_code">
                                                 <input type="hidden" value="" class="in_cart_key form-control w-50" name="key">
                                             </div>
-                                            <div id="chosen_price_div">
+                                           <!-- <div id="chosen_price_div">
                                                 <div
                                                     class="d-none d-sm-flex justify-content-start align-items-center me-2">
                                                     <div
@@ -315,9 +318,9 @@
                                                         <small id="set-tax-amount"></small>)
                                                     </small>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div> 
-                                    </div> -->
+                                    </div> 
 
                                     <div class="row no-gutters d-none flex-start d-flex">
                                         <div class="col-12">
@@ -332,21 +335,46 @@
                         </div>
                     </div>
 					
-                                    <div class="__btn-grp mt-2 mb-3 d-none d-sm-flex">
+                                   
+									
+						<div class="wrapper-product-action">
+								<div class="container">
+								<div class="row">
+									<div class="d-flex innerwrapper-content w-100">
+										<div class="leftwrappercontent">
+											<div class="d-flex imagewithtitletext">
+												<div class="product-thumb-stickybar">
+													<img src="http://127.0.0.1:8000/storage/product/2024-08-03-66adfea7348b9.webp" alt="product image" class="productthumbnail">
+												</div>
+												<div class="product-title-price">
+													<div class="producttitle">
+														<h2 class="productname">{{$product->name}}</h2>
+													</div>
+													<div class="productprice">
+														 
+														<span class="price-product font-weight-normal fs-14 text-accent d-flex align-items-end gap-2">
+                                        {!! getPriceRangeWithDiscount(product: $product) !!}
+                                    </span>
+								 
+													</div>
+												</div>
+											</div>
+										</div>
+									     <div class="__btn-grp d-none d-sm-flex">
                                         @if(($product->added_by == 'seller' && ($sellerTemporaryClose || (isset($product->seller->shop) && $product->seller->shop->vacation_status && $currentDate >= $sellerVacationStartDate && $currentDate <= $sellerVacationEndDate))) ||
                                          ($product->added_by == 'admin' && ($inHouseTemporaryClose || ($inHouseVacationStatus && $currentDate >= $inHouseVacationStartDate && $currentDate <= $inHouseVacationEndDate))))
-                                            <button class="btn btn-secondary" type="button" disabled>
+                                            <button class="btn btn-style-black" type="button" disabled>
                                                 {{ translate('buy_now') }}
                                             </button>
-                                            <button class="btn btn--primary string-limit" type="button" disabled>
+                                            <button class="btn btn-style-black string-limit" type="button" disabled>
                                                 {{ translate('add_to_cart') }}
                                             </button>
                                         @else
                                             <button type="button"
-                                                 class="btn btn-secondary element-center btn-gap-{{Session::get('direction') === "rtl" ? 'left' : 'right'}} action-buy-now-this-product">
+                                                 class="btn btn-style-black element-center btn-gap-{{Session::get('direction') === "rtl" ? 'left' : 'right'}} action-buy-now-this-product">
                                                 <span class="string-limit">{{ translate('buy_now') }}</span>
                                             </button>
-                                            <button class="btn btn--primary element-center btn-gap-{{Session::get('direction') === "rtl" ? 'left' : 'right'}} action-add-to-cart-form"
+                                            <button class="btn btn-style-black element-center btn-gap-{{Session::get('direction') === "rtl" ? 'left' : 'right'}} action-add-to-cart-form"
                                                 type="button" data-update-text="{{ translate('update_cart') }}" data-add-text="{{ translate('add_to_cart') }}">
                                                 <span class="string-limit">{{ translate('add_to_cart') }}</span>
                                             </button>
@@ -369,32 +397,22 @@
                                             </div>
                                         @endif
                                     </div>
-                    <div class="row">
+									   </div>
+								   </div>
+						 
+							   </div>
+							   </div>
+							</div>			
+							
+                     <div class="row">
                         <div class="mt-4 rtl col-12 text-align-direction">
                             <div class="row">
                                 <div class="col-12">
-                                    <div>
-                                        <div
-                                            class="px-4 pb-3 mb-3 mr-0 mr-md-2 bg-white __review-overview __rounded-10 pt-3">
-                                            <ul class="nav nav-tabs nav--tabs d-flex justify-content-center mt-3"
-                                                role="tablist">
-                                                <li class="nav-item">
-                                                    <a class="nav-link __inline-27 active " href="#overview"
-                                                       data-toggle="tab" role="tab">
-                                                        {{translate('overview')}}
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link __inline-27" href="#reviews" data-toggle="tab"
-                                                       role="tab">
-                                                        {{translate('reviews')}}
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                            <div class="tab-content px-lg-3">
-                                                <div class="tab-pane fade show active text-justify" id="overview"
-                                                     role="tabpanel">
-                                                    <div class="row pt-2 specification">
+                                   <div class="wrapper-product-designscription">
+									 <div class="container">
+										<div class="row">
+										<div class="product-speficafication">
+                                                    <div class="row specification">
 
                                                         @if($product->video_url != null && (str_contains($product->video_url, "youtube.com/embed/")))
                                                             <div class="col-12 mb-4">
@@ -425,7 +443,10 @@
                                                     @endif
                                                 </div>
 
-                                                <div class="tab-pane fade" id="reviews" role="tabpanel">
+  <div class="wrapper-product-review">
+  <div class="block-heading">
+	<h2> Review</h2>
+  </div>
                                                     @if(count($product->reviews)==0 && $productReviews->total() == 0)
                                                         <div>
                                                             <div class="text-center text-capitalize">
@@ -614,9 +635,9 @@
                             </div>
                         </div>
                     </div>
-
-                </div>
-               <!-- <div class="col-lg-3">
+					
+					
+					       <!-- <div class="col-lg-3">
                     @php($companyReliability = getWebConfig('company_reliability'))
                     @if($companyReliability != null)
                         <div class="product-details-shipping-details">
@@ -818,8 +839,11 @@
                         @endforeach
                     </div>
                 </div> -->
-            </div>
-        </div>
+										
+										</div>
+										
+									 </div>
+								   </div> 
 
         <div class="bottom-sticky bg-white d-sm-none">
             <div class="d-flex flex-column gap-1 py-2">
@@ -862,8 +886,8 @@
         </div>
 
         @if (count($relatedProducts)>0)
-            <div class="container rtl text-align-direction">
-                <div class="card __card border-0">
+            <div class="container rtl text-align-direction relatedproducts">
+                <div class="card border-0 relatedproductgrid">
                     <div class="card-body">
                         <div class="row flex-between">
                             <div class="ms-1">
@@ -882,7 +906,7 @@
                             </div>
                         </div>
 
-                        <div class="row g-3 mt-1">
+                        <div class="row g-3">
                             @foreach($relatedProducts as $key => $relatedProduct)
                                 <div class="col-xl-2 col-sm-3 col-6">
                                     @include('web-views.partials._inline-single-product-without-eye',['product'=>$relatedProduct,'decimal_point_settings'=>$decimalPointSettings])

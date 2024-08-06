@@ -2,9 +2,9 @@
 <section class="bg-transparent py-3">
     <div class="container position-relative">
         <div class="row no-gutters position-relative rtl">
-            @if ($categories->count() > 0 )
+            <!--@if ($categories->count() > 0 )
                 <div class="col-xl-3 position-static d-none d-xl-block __top-slider-cate">
-                    <div class="category-menu-wrap position-static">
+                    <div class="category-menu-wrap position-static ttt">
                         <ul class="category-menu mt-0">
                             @foreach ($categories as $key=>$category)
                                 <li>
@@ -33,9 +33,9 @@
                         </ul>
                     </div>
                 </div>
-            @endif
+            @endif--->
 
-            <div class="col-12 col-xl-9 __top-slider-images">
+            <div class="col-lg-12 col-xl-12 __top-slider-images">
                 <div class="{{Session::get('direction') === "rtl" ? 'pr-xl-2' : 'pl-xl-2'}}">
                     <div class="owl-theme owl-carousel hero-slider">
                         @foreach($main_banner as $key=>$banner)

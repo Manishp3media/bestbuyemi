@@ -16,7 +16,7 @@ h4,
 h5,
 h6 {
     letter-spacing: 0.01em;
-    color: #212629;
+    color: #393939;
 }
 
 .quick-view {
@@ -756,8 +756,8 @@ a {
 }
 
 .__btn-grp button {
-    height: 42px;
-    line-height: 40px;
+    height: 48px;
+    line-height: 48px;
     padding-top: 0;
     padding-bottom: 0;
 }
@@ -921,7 +921,7 @@ a {
 
 .__h-100 {
     min-height: calc(100% - 84px);
-	margin-left: 100px;
+	 
 }
 
 .checkbox-color {
@@ -943,10 +943,10 @@ a {
 
 .checkbox-color input:checked ~ label .outline {
     position: absolute;
-    inset: -5px;
+    inset: -4px;
     border-radius: 50%;
-    border: 3px solid var(--primary-clr);
-    box-shadow: 0px 4px 10px #00000040;
+    border: 2px solid #323232;
+    box-shadow: 0px 2px 10px #00000040;
 }
 
 .checkbox-alphanumeric--style-1 {
@@ -5081,7 +5081,7 @@ a {
 }
 
 .navbar-light {
-    background-color: #fff;
+    background-color: #FAFAFC;
 }
 
 @media (max-width: 767px) {
@@ -7200,8 +7200,8 @@ span.badge-accent:hover {
 .share--icons {
     position: absolute;
     z-index: 99;
-    right: 26px;
-    top: 37px;
+    right: -26px;
+    top: 21px;
     display: flex !important;
     flex-direction: column;
     gap: 8px;
@@ -7728,7 +7728,8 @@ span.badge-accent:hover {
 
 .checkbox-alphanumeric input:checked ~ label {
     transform: scale(1);
-    border-color: var(--primary-clr) !important;
+    border-color: var(--lightblack) !important;
+	border: 2px solid;
 } /*# sourceMappingURL=style.css.map */
 
 .free-delivery-area {
