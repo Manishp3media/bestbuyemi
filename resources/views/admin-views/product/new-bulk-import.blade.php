@@ -37,7 +37,7 @@
                     <div class="card rest-part">
                         <div class="px-3 py-4 d-flex flex-wrap align-items-center gap-10 justify-content-center">
                             <h4 class="mb-0">{{translate("do_not_have_the_template")}} ?</h4>
-                            <a href="{{dynamicAsset(path: 'public/assets/new-product-bulk-import.xlsx')}}" download=""
+                            <a href="{{dynamicAsset(path: 'public/assets/new-product-bulk-importformat.xlsx')}}" download=""
                                class="btn-link text-capitalize fz-16 font-weight-medium">{{translate('download_here')}}</a>
                         </div>
                         <div class="card-body">
