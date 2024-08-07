@@ -72,7 +72,7 @@
                                         </div>
                                     </button>
 
-                                  
+
 									<div class="wishlist-icon">
 									<i class="navbar-tool-icon czi-heart"></i>
 									</div>
@@ -122,13 +122,13 @@
                                 </div>
                             </div>
                         </div>
-						
+
                         <div class="col-lg-7 col-md-8 col-12 mt-md-0 mt-sm-3 web-direction">
                             <div class="productsingle __h-100">
 							    <div class="product-brandname"><p>{{$product->brand->name}}</p></div>
 								<div class="d-flex productshare-share-product-title">
 								 <div class="sharethis-inline-share-buttons share--icons text-align-direction">
-                                    </div> 
+                                    </div>
 								</div>
                                 <span class="mb-2 __inline-24">{{$product->name}}</span>
 								<div class="productshortinfo"><p>(6GB RAM, 128GB, Black Diamond)</p></div>
@@ -195,7 +195,7 @@
 
                                     <div
                                         class="position-relative {{Session::get('direction') === "rtl" ? 'ml-n4' : 'mr-n4'}} ">
-                                        @if (count(json_decode($product->colors)) > 0)	
+                                        @if (count(json_decode($product->colors)) > 0)
                                             <div class="align-items-center colorselection">
                                                 <div
                                                     class="product-description-label m-0 text-dark font-bold">{{translate('color')}}
@@ -231,35 +231,34 @@
                                             }
                                         @endphp
                                     </div>
+                                    @if ( isset($product['features']) && count(json_decode($product['features'])) > 0)
 									<div class="keyfeatures-wrapper">
 										<div class="keypointscontent">
 										<div class="keyheadingtext">
 											<h2 class="keyheading">key features</h2>
 										</div>
 										<div class="ourproductkeypoints">
-											<ul class="itemkeypints">
-												<li>Display: 6.74 inches (17.12 cm), AMOLED, 120 Hz Refresh Rate</li>
-												<li>Memory: 8GB RAM, 256GB ROM</li>
-												<li>Processor: Qualcomm Snapdragon 7 Plus Gen 3, Octa Core</li>
-												<li>Camera: 50 MP + 8 MP Dual Rear & 16 MP Front Camera</li>
-												<li>Battery: 5500 mAh with 100W SUPERVOOC</li>
-												<li>USP: IP65 Dust & Water Resistant, AI Audio Summary, In-display Fingerprint Sensor</li>
-												<li>Display: 6.74 inches (17.12 cm), AMOLED, 120 Hz Refresh Rate</li>
-												<li>Camera: 50 MP + 8 MP Dual Rear & 16 MP Front Camera</li>
-											</ul>
+                                            <ul class="itemkeypints">
+                                                @foreach (json_decode($product['features']) as $feature)
+                                                <li>{{ $feature }}</li>
+
+                                                @endforeach
+                                            </ul>
 										</div>
 										</div>
                                     </div>
+                                    @endif
+
 
                                     @php($extensionIndex=0)
                                     @if($product['product_type'] == 'digital' && $product['digital_product_file_types'] && count($product['digital_product_file_types']) > 0 && $product['digital_product_extensions'])
                                         @foreach($product['digital_product_extensions'] as $extensionKey => $extensionGroup)
-                                        <div class="row flex-start 
+                                        <div class="row flex-start
 										mb-1">
                                             <div class="product-description-label text-dark font-bold {{Session::get('direction') === "rtl" ? 'pl-2' : 'pr-2'}} text-capitalize mb-2">
                                                 {{ translate($extensionKey) }} :
                                             </div>
-											
+
                                             <div>
                                                 @if(count($extensionGroup) > 0)
                                                 <div class="list-inline checkbox-alphanumeric checkbox-alphanumeric--style-1 mb-0 flex-start row ps-0">
@@ -286,12 +285,12 @@
                                         @endforeach
                                     @endif
 
-                                   
+
 
                                     <div class="text-dark">
                                             <p> @isset($product['origin'])     <b>Origin :</b> <span class="badge badge-primary">{{ ucfirst($product['origin']) }}</span>         @endisset   @isset($product['weight'])        <b class="ml-3">Weight :</b> <span class="badge badge-info"> {{  round($product['weight']/1000, 1) }} Kg </span>                      @endisset </p>
                                     </div>
-									
+
 									  <div class="mt-3">
                                        <div class="quantitybox product-quantity d-flex flex-column __gap-15">
                                             <div class="d-flex align-items-center gap-3">
@@ -339,12 +338,12 @@
                                                     </small>
                                                 </div>
                                             </div> -->
-                                        </div> 
-                                    </div> 
+                                        </div>
+                                    </div>
                         </div>
 
 
-                                  
+
 
                                     <div class="row no-gutters d-none flex-start d-flex">
                                         <div class="col-12">
@@ -358,9 +357,9 @@
                             </div>
                         </div>
                     </div>
-					
-                                   
-									
+
+
+
 						<div class="wrapper-product-action">
 								<div class="container">
 								<div class="row">
@@ -375,11 +374,11 @@
 														<h2 class="productname">{{$product->name}}</h2>
 													</div>
 													<div class="productprice">
-														 
+
 														<span class="price-product font-weight-normal fs-14 text-accent d-flex align-items-end gap-2">
                                         {!! getPriceRangeWithDiscount(product: $product) !!}
                                     </span>
-								 
+
 													</div>
 												</div>
 											</div>
@@ -423,11 +422,11 @@
                                     </div>
 									   </div>
 								   </div>
-						 
+
 							   </div>
 							   </div>
-							</div>			
-							
+							</div>
+
                      <div class="row">
                         <div class="mt-4 rtl col-12 text-align-direction">
                             <div class="row">
@@ -659,8 +658,8 @@
                             </div>
                         </div>
                     </div>
-					
-					
+
+
 					       <!-- <div class="col-lg-3">
                     @php($companyReliability = getWebConfig('company_reliability'))
                     @if($companyReliability != null)
@@ -846,7 +845,7 @@
                             </div>
                         @endif
                     </div>
-                    @endif 
+                    @endif
 
                     <div class="pt-4 pb-3">
                         <span class=" __text-16px font-bold text-capitalize">
@@ -863,11 +862,11 @@
                         @endforeach
                     </div>
                 </div> -->
-										
+
 										</div>
-										
+
 									 </div>
-								   </div> 
+								   </div>
 
         <div class="bottom-sticky bg-white d-sm-none">
             <div class="d-flex flex-column gap-1 py-2">
