@@ -72,7 +72,7 @@
                                         </div>
                                     </button>
 
-                                  
+
 									<div class="wishlist-icon">
 									<i class="navbar-tool-icon czi-heart"></i>
 									</div>
@@ -122,13 +122,13 @@
                                 </div>
                             </div>
                         </div>
-						
+
                         <div class="col-lg-7 col-md-8 col-12 mt-md-0 mt-sm-3 web-direction">
                             <div class="productsingle __h-100">
 							    <div class="product-brandname"><p>{{$product->brand->name}}</p></div>
 								<div class="d-flex productshare-share-product-title">
 								 <div class="sharethis-inline-share-buttons share--icons text-align-direction">
-                                    </div> 
+                                    </div>
 								</div>
                                 <span class="mb-2 __inline-24">{{$product->name}}</span>
 								<div class="productshortinfo"><p>(6GB RAM, 128GB, Black Diamond)</p></div>
@@ -170,7 +170,7 @@
                                     <input type="hidden" name="id" value="{{ $product->id }}">
                                     <div
                                         class="position-relative {{Session::get('direction') === "rtl" ? 'ml-n4' : 'mr-n4'}} mb-2">
-                                        @if (count(json_decode($product->colors)) > 0)	
+                                        @if (count(json_decode($product->colors)) > 0)
                                             <div class="flex-start align-items-center mb-2">
                                                 <div
                                                     class="product-description-label m-0 text-dark font-bold">{{translate('color')}}
@@ -267,7 +267,8 @@
 
 
                                     <div class="text-dark">
-                                            <p> @isset($product['origin'])     <b>Origin :</b> <span class="badge badge-primary">{{ ucfirst($product['origin']) }}</span>         @endisset   @isset($product['weight'])        <b class="ml-3">Weight :</b> <span class="badge badge-info"> {{  round($product['weight']/1000, 1) }} Kg </span>                      @endisset </p>
+                                            <p> @isset($product['origin'])     <b>Origin :</b> <span class="badge badge-primary">{{ ucfirst($product['origin']) }}</span>         @endisset   @if(isset($product['weight']) || !empty($product['weight']) || $product['weight'] != '')
+                                                       <b class="ml-3">Weight :</b> <span class="badge badge-info"> {{  round($product['weight']/1000, 1) }} Kg </span>                      @endif </p>
                                     </div>
                         </div>
 
@@ -319,8 +320,8 @@
                                                     </small>
                                                 </div>
                                             </div> -->
-                                        </div> 
-                                    </div> 
+                                        </div>
+                                    </div>
 
                                     <div class="row no-gutters d-none flex-start d-flex">
                                         <div class="col-12">
@@ -334,9 +335,9 @@
                             </div>
                         </div>
                     </div>
-					
-                                   
-									
+
+
+
 						<div class="wrapper-product-action">
 								<div class="container">
 								<div class="row">
@@ -351,11 +352,11 @@
 														<h2 class="productname">{{$product->name}}</h2>
 													</div>
 													<div class="productprice">
-														 
+
 														<span class="price-product font-weight-normal fs-14 text-accent d-flex align-items-end gap-2">
                                         {!! getPriceRangeWithDiscount(product: $product) !!}
                                     </span>
-								 
+
 													</div>
 												</div>
 											</div>
@@ -399,11 +400,11 @@
                                     </div>
 									   </div>
 								   </div>
-						 
+
 							   </div>
 							   </div>
-							</div>			
-							
+							</div>
+
                      <div class="row">
                         <div class="mt-4 rtl col-12 text-align-direction">
                             <div class="row">
@@ -635,8 +636,8 @@
                             </div>
                         </div>
                     </div>
-					
-					
+
+
 					       <!-- <div class="col-lg-3">
                     @php($companyReliability = getWebConfig('company_reliability'))
                     @if($companyReliability != null)
@@ -839,11 +840,11 @@
                         @endforeach
                     </div>
                 </div> -->
-										
+
 										</div>
-										
+
 									 </div>
-								   </div> 
+								   </div>
 
         <div class="bottom-sticky bg-white d-sm-none">
             <div class="d-flex flex-column gap-1 py-2">
