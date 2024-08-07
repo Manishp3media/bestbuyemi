@@ -62,7 +62,7 @@
                                 <div class="d-flex flex-column gap-3">
                                     <button type="button" data-product-id="{{$product['id']}}"
                                             class="btn __text-18px border wishList-pos-btn d-sm-none product-action-add-wishlist">
-                                        <i class="fa {{($wishlistStatus == 1?'fa-heart':'fa-heart-o')}} wishlist_icon_{{$product['id']}} web-text-primary"
+                                        <i class="fa {{($wishlistStatus == 1?'fa-heart':'fa-heart-o')}} wishlist_icon_{{$product['id']}} wishlisticon"
                                            aria-hidden="true"></i>
                                         <div class="wishlist-tooltip" x-placement="top">
                                             <div class="arrow"></div><div class="inner">
@@ -133,7 +133,7 @@
                                 <span class="mb-2 __inline-24">{{$product->name}}</span>
 								<div class="productshortinfo"><p>(6GB RAM, 128GB, Black Diamond)</p></div>
 								<div class="productsku-details"><p>SKU: Redmi 13 5G (6GB RAM, 128GB, Black Diamond)</p></div>
-								<div class="countryinfo"><p>Country of Origin: {{$product->origin}}</p></div>
+								<div class="countryinfo"><p>Country of Origin: {{$product->origin}}India</p></div>
                               <!-- <div class="d-flex flex-wrap align-items-center mb-2 pro">
                                     <div class="star-rating me-2">
                                         @for($inc=1;$inc<=5;$inc++)
@@ -168,16 +168,41 @@
                                 <form id="add-to-cart-form" class="mb-2">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $product->id }}">
+									 @foreach (json_decode($product->choice_options) as $key => $choice)
+                                        <div class="storagetab align-items-center">
+                                            <div
+                                                class="product-description-label storage text-dark font-bold {{Session::get('direction') === "rtl" ? 'pl-2' : 'pr-2'}} text-capitalize">{{ $choice->title }}
+                                                :
+                                            </div>
+                                            <div>
+                                                <div class="list-inline checkbox-alphanumeric checkbox-alphanumeric--style-1 mb-0 flex-start row ps-0">
+                                                    @foreach ($choice->options as $index => $option)
+                                                        <div>
+                                                            <div class="for-mobile-capacity">
+                                                                <input type="radio"
+                                                                       id="{{ str_replace(' ', '', ($choice->name. '-'. $option)) }}"
+                                                                       name="{{ $choice->name }}" value="{{ $option }}"
+                                                                       @if($index == 0) checked @endif >
+                                                                <label class="__text-12px"
+                                                                       for="{{ str_replace(' ', '', ($choice->name. '-'. $option)) }}"">{{ $option }}</label>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+
                                     <div
-                                        class="position-relative {{Session::get('direction') === "rtl" ? 'ml-n4' : 'mr-n4'}} mb-2">
+                                        class="position-relative {{Session::get('direction') === "rtl" ? 'ml-n4' : 'mr-n4'}} ">
                                         @if (count(json_decode($product->colors)) > 0)	
-                                            <div class="flex-start align-items-center mb-2">
+                                            <div class="align-items-center colorselection">
                                                 <div
                                                     class="product-description-label m-0 text-dark font-bold">{{translate('color')}}
                                                     :
                                                 </div>
                                                 <div>
-                                                    <ul class="list-inline checkbox-color mb-0 flex-start ms-2 ps-0">
+                                                    <ul class="list-inline checkbox-color mb-0 flex-start ps-0">
                                                         @foreach (json_decode($product->colors) as $key => $color)
                                                             <li>
                                                                 <input type="radio"
@@ -206,17 +231,38 @@
                                             }
                                         @endphp
                                     </div>
+									<div class="keyfeatures-wrapper">
+										<div class="keypointscontent">
+										<div class="keyheadingtext">
+											<h2 class="keyheading">key features</h2>
+										</div>
+										<div class="ourproductkeypoints">
+											<ul class="itemkeypints">
+												<li>Display: 6.74 inches (17.12 cm), AMOLED, 120 Hz Refresh Rate</li>
+												<li>Memory: 8GB RAM, 256GB ROM</li>
+												<li>Processor: Qualcomm Snapdragon 7 Plus Gen 3, Octa Core</li>
+												<li>Camera: 50 MP + 8 MP Dual Rear & 16 MP Front Camera</li>
+												<li>Battery: 5500 mAh with 100W SUPERVOOC</li>
+												<li>USP: IP65 Dust & Water Resistant, AI Audio Summary, In-display Fingerprint Sensor</li>
+												<li>Display: 6.74 inches (17.12 cm), AMOLED, 120 Hz Refresh Rate</li>
+												<li>Camera: 50 MP + 8 MP Dual Rear & 16 MP Front Camera</li>
+											</ul>
+										</div>
+										</div>
+                                    </div>
 
                                     @php($extensionIndex=0)
                                     @if($product['product_type'] == 'digital' && $product['digital_product_file_types'] && count($product['digital_product_file_types']) > 0 && $product['digital_product_extensions'])
                                         @foreach($product['digital_product_extensions'] as $extensionKey => $extensionGroup)
-                                        <div class="row flex-start mx-0 align-items-center mb-1">
+                                        <div class="row flex-start 
+										mb-1">
                                             <div class="product-description-label text-dark font-bold {{Session::get('direction') === "rtl" ? 'pl-2' : 'pr-2'}} text-capitalize mb-2">
                                                 {{ translate($extensionKey) }} :
                                             </div>
+											
                                             <div>
                                                 @if(count($extensionGroup) > 0)
-                                                <div class="list-inline checkbox-alphanumeric checkbox-alphanumeric--style-1 mb-0 mx-1 flex-start row ps-0">
+                                                <div class="list-inline checkbox-alphanumeric checkbox-alphanumeric--style-1 mb-0 flex-start row ps-0">
                                                     @foreach($extensionGroup as $index => $extension)
                                                     <div>
                                                         <div class="for-mobile-capacity">
@@ -240,61 +286,35 @@
                                         @endforeach
                                     @endif
 
-                                    @foreach (json_decode($product->choice_options) as $key => $choice)
-                                        <div class="row flex-start mx-0 align-items-center">
-                                            <div
-                                                class="product-description-label text-dark font-bold {{Session::get('direction') === "rtl" ? 'pl-2' : 'pr-2'}} text-capitalize mb-2">{{ $choice->title }}
-                                                :
-                                            </div>
-                                            <div>
-                                                <div class="list-inline checkbox-alphanumeric checkbox-alphanumeric--style-1 mb-0 mx-1 flex-start row ps-0">
-                                                    @foreach ($choice->options as $index => $option)
-                                                        <div>
-                                                            <div class="for-mobile-capacity">
-                                                                <input type="radio"
-                                                                       id="{{ str_replace(' ', '', ($choice->name. '-'. $option)) }}"
-                                                                       name="{{ $choice->name }}" value="{{ $option }}"
-                                                                       @if($index == 0) checked @endif >
-                                                                <label class="__text-12px"
-                                                                       for="{{ str_replace(' ', '', ($choice->name. '-'. $option)) }}"">{{ $option }}</label>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-
+                                   
 
                                     <div class="text-dark">
                                             <p> @isset($product['origin'])     <b>Origin :</b> <span class="badge badge-primary">{{ ucfirst($product['origin']) }}</span>         @endisset   @isset($product['weight'])        <b class="ml-3">Weight :</b> <span class="badge badge-info"> {{  round($product['weight']/1000, 1) }} Kg </span>                      @endisset </p>
                                     </div>
-                        </div>
-
-
-                                    <div class="mt-3">
+									
+									  <div class="mt-3">
                                        <div class="quantitybox product-quantity d-flex flex-column __gap-15">
                                             <div class="d-flex align-items-center gap-3">
                                                 <div class="product-description-label text-dark font-bold mt-0">
                                                     {{translate('quantity')}} :
                                                 </div>
-                                                <div class="d-flex justify-content-center align-items-center quantity-box border rounded border-base web-text-primary">
+                                                <div class="d-flex justify-content-center align-items-center quantity-box border rounded web-text-primary">
                                                     <span class="input-group-btn">
-                                                        <button class="btn btn-number __p-10 web-text-primary minusbtn" type="button"
+                                                        <button class="btn btn-number __p-10 minusbtn" type="button"
                                                                 data-type="minus" data-field="quantity"
                                                                 disabled="disabled">
                                                             -
                                                         </button>
                                                     </span>
                                                     <input type="text" name="quantity"
-                                                           class="form-control input-number text-center cart-qty-field __inline-29 border-0 "
+                                                           class="input-number text-center cart-qty-field __inline-29 border-0 "
                                                            placeholder="{{ translate('1') }}"
                                                            value="{{ $product->minimum_order_qty ?? 1 }}"
                                                            data-producttype="{{ $product->product_type }}"
                                                            min="{{ $product->minimum_order_qty ?? 1 }}"
                                                            max="{{$product['product_type'] == 'physical' ? $product->current_stock : 100}}">
                                                     <span class="input-group-btn">
-                                                        <button class="btn btn-number __p-10 web-text-primary" type="button"
+                                                        <button class="btn btn-number __p-10" type="button"
                                                                 data-producttype="{{ $product->product_type }}"
                                                                 data-type="plus" data-field="quantity">
                                                                 +
@@ -321,6 +341,10 @@
                                             </div> -->
                                         </div> 
                                     </div> 
+                        </div>
+
+
+                                  
 
                                     <div class="row no-gutters d-none flex-start d-flex">
                                         <div class="col-12">
