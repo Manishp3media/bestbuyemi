@@ -5,6 +5,68 @@
 	.navbar.navbar-expand-md.headermenus {
      background-color: #fafafc;
 }
+.colorselection {
+    padding-bottom: 15px;
+}
+.storagetab {
+    padding-bottom: 15px;
+}
+h2.descriptiontext {
+    font-size: 35px;
+    text-transform: capitalize;
+    font-family: 'Space Grotesk';
+    padding-bottom: 30px;
+    line-height: normal;
+    color: #323232;
+    font-weight: 500;
+    margin: 0px;
+}
+.brandnamewithtext {
+    align-items: center;
+    gap: 30%;
+}
+.brandnamewithtext {
+    align-items: center;
+     
+    padding: 20px 0px;
+    border-bottom: 2px solid #d4d4d4;
+}
+h2.brandname {
+    font-size: 16px;
+    color: #8B8B8B;
+    font-family: Helvetica;
+	margin: 0px;
+	text-transform: capitalize;
+
+}
+.brandfullname {
+    width: 100%;
+}
+.brandtext {
+    width: 45%;
+}
+p.itemwuthbrand {
+    font-size: 16px;
+    color: #555555;
+    font-family: Helvetica;
+	margin: 0px;
+	text-transform: capitalize;
+}
+section.wrapper-productdescription {
+    background: #ffffff;
+    padding: 100px;
+    border-radius: 30px;
+    margin: 5px;
+}
+p.srtdescription {
+    font-size: 16px;
+    color: #555555;
+    font-family: Helvetica;
+    line-height: 30px;
+    font-weight: normal;
+	margin: 0px;
+    padding-top: 15px;
+}
 .wishlist-icon {
     position: absolute;
     right: 50px;
@@ -27,7 +89,7 @@
 ul.navbar-nav.menuitems li a {
     font-size: 14px;
     font-family: Helvetica;
-    font-weight: 600;
+    font-weight: 400;
     color: #2B2B2B !important;
 }
 .productprice span.discounted_unit_price.fs-24.font-bold {
@@ -59,9 +121,7 @@ ul.navbar-nav.menuitems li a {
 .productsingle {
     margin-left: 100px;
 }
-.quantitybox {
-    margin-left: 100px;
-}	
+ 	
 .productprice .price-product {
     font-size: 18px;
     color: #393939;
@@ -80,6 +140,16 @@ ul.navbar-nav.menuitems li a {
 .imagewithtitletext {
     gap: 25px;
 	align-items: center;
+}
+.keypointscontent {
+    padding: 10px;
+}
+h2.keyheading {
+    font-size: 16px;
+    text-transform: capitalize;
+}
+.keyfeatures-wrapper {
+    border: 2px solid #f3f3f3;
 }
 button.btn-primary-black {
     font-size: 16px;
@@ -138,11 +208,35 @@ button.btn-primary-black {
     font-size: 12px;
     font-weight: 400;
     color: #999999;
-	margin-bottom: 30px;
+	margin-bottom: 15px;
 }
 .for-mobile-capacity label.__text-12px {
     padding: 22px 44px;
     font-size: 16px;
     line-height: 0px;
 	background: #F3F3F3;
+}
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 767px) {
+  .wrappertop-section {
+    padding-top: 30px;
+}
+
+.wishlist-icon {
+	
+	display: none;
+}
+.wishlisticon {
+    color: #808080;
+    font-size: 18px;
+}
 }
