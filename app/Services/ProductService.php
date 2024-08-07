@@ -3,11 +3,12 @@
 namespace App\Services;
 
 use App\Enums\UserRole;
-use App\Models\Product;
+use App\Enums\ViewPaths\Admin\Product;
 use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Color;
+use App\Models\Product as ModelsProduct;
 use App\Models\ProductImportFail;
 use App\Traits\FileManagerTrait;
 use Illuminate\Support\Facades\DB;
@@ -677,24 +678,24 @@ class ProductService
             }
 
             // Process options
-            for ($i = 1; $i <= 4; $i++) {
-                $optionNameKey = 'option_name_' . $i;
-                $optionValueKey = 'option_value_' . $i;
+            // for ($i = 1; $i <= 4; $i++) {
+            //     $optionNameKey = 'option_name_' . $i;
+            //     $optionValueKey = 'option_value_' . $i;
 
-                if (isset($row[$optionNameKey]) && $row[$optionNameKey] !== "") {
-                    $options = array_map('trim', explode(',', $row[$optionValueKey]));
-                    $attr = Attribute::where('name', $row[$optionNameKey])->first();
+            //     if (isset($row[$optionNameKey]) && $row[$optionNameKey] !== "") {
+            //         $options = array_map('trim', explode(',', $row[$optionValueKey]));
+            //         $attr = Attribute::where('name', $row[$optionNameKey])->first();
 
-                    if ($attr) {
-                        $attribute_ids[] = $attr->id;
-                        $choiceOptions[] = [
-                            'name' => 'choice_' . $i,
-                            'title' => $row[$optionNameKey],
-                            'options' => $options,
-                        ];
-                    }
-                }
-            }
+            //         if ($attr) {
+            //             $attribute_ids[] = $attr->id;
+            //             $choiceOptions[] = [
+            //                 'name' => 'choice_' . $i,
+            //                 'title' => $row[$optionNameKey],
+            //                 'options' => $options,
+            //             ];
+            //         }
+            //     }
+            // }
 
             // Handle additional images
             for ($i = 1; $i <= 4; $i++) {
@@ -771,8 +772,8 @@ class ProductService
                 'status' => 1,
                 'request_status' => 1,
                 'colors' => json_encode([]),
-                'attributes' => json_encode($attribute_ids),
-                'choice_options' => json_encode($choiceOptions),
+                'attributes' => json_encode([]),
+                'choice_options' => json_encode([]),
                 'variation' => json_encode([]),
                 'featured_status' => 0,
                 'added_by' => $addedBy,
@@ -781,7 +782,7 @@ class ProductService
             ];
 
             // Save product to database
-            $product = Product::create($productData);
+            $product = ModelsProduct::create($productData);
             $products[] = $product;
 
         } catch (\Exception $exception) {
