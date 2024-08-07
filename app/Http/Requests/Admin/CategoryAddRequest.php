@@ -27,7 +27,7 @@ class CategoryAddRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'image' => 'required',
+            'image' => 'nullable',
             'priority'=>'required'
         ];
     }
