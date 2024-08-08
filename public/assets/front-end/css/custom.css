@@ -65,8 +65,9 @@
 
 .btn--primary {
     color: #fff;
-    background-color: var(--web-primary) !important;
-    border-color: var(--web-primary) !important;
+    background-color: var(--lightblack);
+    border-color: var(--lightblack);
+     
 }
 
 .d--none {
@@ -85,8 +86,9 @@
 }
 
 .btn-secondary {
-    background-color: var(--web-secondary) !important;
-    border-color: var(--web-secondary) !important;
+    background-color: var(--lightblack);
+    border-color: var(--lightblack);
+    
 }
 
 .btn-outline-accent:hover {
@@ -788,7 +790,7 @@ img, figure {
 }
 .owl-theme .owl-nav *,
 .owl-theme .owl-nav [class*="owl-"]:hover {
-    background-color: var(--web-primary) !important;;
+    background-color: var(--lightblack) !important;
 }
 
 
