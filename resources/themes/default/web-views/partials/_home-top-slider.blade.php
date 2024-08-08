@@ -1,10 +1,34 @@
 @if(count($main_banner) > 0)
 <section class="bg-transparent py-3">
     <div class="container position-relative">
-        <div class="row no-gutters position-relative rtl">
-            <!--@if ($categories->count() > 0 )
-                <div class="col-xl-3 position-static d-none d-xl-block __top-slider-cate">
-                    <div class="category-menu-wrap position-static ttt">
+        <div class="row-outer">
+            
+            <div class="d-flex slider-area">
+                <div class="sliderimages">
+                    <div class="owl-theme owl-carousel hero-slider">
+                        @foreach($main_banner as $key=>$banner)
+                            <a href="{{$banner['url']}}" class="d-block" target="_blank">
+                                <img class="w-100 __slide-img" alt=""
+                                    src="{{ getStorageImages(path: $banner->photo_full_url, type: 'banner') }}">
+                            </a>
+                        @endforeach
+                    </div>
+                </div> 
+				
+				
+				<!--@if ($categories->count() > 0 )-->
+                <div class="categoryblock">
+					<div class="d-flex sliderstaticimages">
+						<div class="upperimage">
+							<img src="{{asset('myfigma/static_image_upper.png')}}" alt="product image 01"/>
+						</div>
+						<div class="upperimage">
+							<img src="{{asset('/myfigma/static _image_below.png')}}" alt="product image 02"/>
+						</div>
+                    </div>
+					
+					
+                    <!--<div class="category-menu-wrap position-static ttt">
                         <ul class="category-menu mt-0">
                             @foreach ($categories as $key=>$category)
                                 <li>
@@ -31,22 +55,21 @@
                                 </a>
                             </li>
                         </ul>
-                    </div>
+                    </div>-->
                 </div>
-            @endif--->
-
-            <div class="col-lg-12 col-xl-12 __top-slider-images">
-                <div class="{{Session::get('direction') === "rtl" ? 'pr-xl-2' : 'pl-xl-2'}}">
-                    <div class="owl-theme owl-carousel hero-slider">
-                        @foreach($main_banner as $key=>$banner)
-                            <a href="{{$banner['url']}}" class="d-block" target="_blank">
-                                <img class="w-100 __slide-img" alt=""
-                                    src="{{ getStorageImages(path: $banner->photo_full_url, type: 'banner') }}">
-                            </a>
-                        @endforeach
-                    </div>
-                </div>
+            <!--@endif-->
             </div>
+						<div class="textonslider">
+				<div class="smartchoice-headingtext">
+					<h2 class="headingtextsmart">Smart Choices, Bigger Savings</h2>
+				</div>
+				<div class="gettextpara">
+					<p class="getmoretext">Get more for your money with every purchase!</p>
+				</div>
+				<div class="shopnowbtn">
+					<a href="#" class="btnshop">Shop Now</a>
+				</div>
+</div>
         </div>
     </div>
 </section>

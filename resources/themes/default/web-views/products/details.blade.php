@@ -130,7 +130,7 @@
 								 <div class="sharethis-inline-share-buttons share--icons text-align-direction">
                                     </div> 
 								</div>
-                                <span class="mb-2 __inline-24">{{$product->name}}</span>
+                                <span class="mb-2 __inline-24 productnametext">{{$product->name}}</span>
 								<div class="productshortinfo"><p>(6GB RAM, 128GB, Black Diamond)</p></div>
 								<div class="productsku-details"><p>SKU: Redmi 13 5G (6GB RAM, 128GB, Black Diamond)</p></div>
 								<div class="countryinfo"><p>Country of Origin: {{$product->origin}}India</p></div>
@@ -429,7 +429,7 @@
 							</div>			
 							
                      <div class="row">
-                        <div class="mt-4 rtl col-12 text-align-direction">
+                        <div class="mt-4 rtl col-12 text-align-direction description-box">
                             <div class="row">
                                 <div class="col-12">
                                    <div class="wrapper-product-designscription">
@@ -869,13 +869,13 @@
 									 </div>
 								   </div> 
 
-        <div class="bottom-sticky bg-white d-sm-none">
+        <div class="stickyaddtocart bottom-sticky bg-white d-sm-none">
             <div class="d-flex flex-column gap-1 py-2">
                 <div class="d-flex justify-content-center align-items-center fs-13">
                     <div class="product-description-label text-dark font-bold"><strong
                             class="text-capitalize">{{translate('total_price')}}</strong> :
                     </div>
-                    &nbsp; <strong id="chosen_price_mobile" class="text-base"></strong>
+                    &nbsp; <strong id="chosen_price_mobile" class="stickymobilebar"></strong>
                     <small class="ml-2  font-regular">
                         (<small>{{translate('tax')}} : </small>
                         <small id="set-tax-amount-mobile"></small>)

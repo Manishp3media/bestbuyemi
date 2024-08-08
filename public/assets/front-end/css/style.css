@@ -383,6 +383,9 @@ a {
         justify-content: space-between;
         gap: 0;
     }
+		 
+		 
+}
     .__dropdown-menu li:not(:last-child),
     .__dropdown-menu-2 li:not(:last-child) {
         border-bottom: 1px solid #eef6ff;
@@ -522,7 +525,7 @@ a {
     }
     .__slide-img {
         height: unset;
-        max-height: 420px;
+       
     }
     /* .p-xl-35 {
       padding: 35px !important;
@@ -5087,7 +5090,7 @@ a {
 @media (max-width: 767px) {
     .navbar-light .navbar-brand {
         margin-inline-end: auto !important;
-        margin-inline-start: 16px;
+        margin-inline-start: 0px;
     }
     .footer-web-logo a img {
         -o-object-position: center center;
@@ -6174,7 +6177,7 @@ a {
 
 .bg-light {
     --bs-bg-opacity: 1;
-    background-color: rgb(246, 246, 246) !important;
+    background-color: transparent !important;
 }
 
 /* Add Fund Modal - Start */
@@ -9145,6 +9148,24 @@ body *::-webkit-scrollbar-thumb {
     .before-content-border::before {
         display: none;
     }
+	.product-preview-thumb {
+    width: 65px;
+    height: 75px;    
+}
+.share--icons {   
+    right: 0px;
+    padding: 0px 7px 0px 0px;  
+}
+	.productnametext {
+		font-size: 18px;
+}
+	.checkbox-alphanumeric--style-1 {
+    gap: 5px; 
+}
+.checkbox-color {
+     
+    padding-top: 5px;
+}
 }
 .bg-E9F3FF80 {
     background: #e9f3ff80;
