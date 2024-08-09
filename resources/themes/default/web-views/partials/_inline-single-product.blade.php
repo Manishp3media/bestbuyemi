@@ -1,6 +1,6 @@
 @php($overallRating = getOverallRating($product->reviews))
 
-<div class="product-single-hover style--card">
+<div class="product-single-hover style--card single-productitem">
     <div class="overflow-hidden position-relative">
         <div class=" inline_product clickable d-flex justify-content-center">
             @if($product->discount > 0)
@@ -38,7 +38,7 @@
         </div>
         <div class="single-product-details">
             @if($overallRating[0] != 0 )
-                <div class="rating-show justify-content-between text-center">
+                <div class="rating-show justify-content-between text-left">
                     <span class="d-inline-block font-size-sm text-body">
                         @for($inc=1;$inc<=5;$inc++)
                             @if ($inc <= (int)$overallRating[0])
@@ -53,25 +53,30 @@
                     </span>
                 </div>
             @endif
-            <div class="text-center">
+            <div class="text-left">
                 <a href="{{route('product',$product->slug)}}">
                     {{ Str::limit($product['name'], 23) }}
                 </a>
             </div>
-            <div class="justify-content-between text-center">
-                <div class="product-price text-center d-flex flex-wrap justify-content-center align-items-center gap-8">
+			<div class="text-left short-specification"><p>(12GB RAM, 256GB, Titanium Gray)</p></div>
+            <div class="justify-content-between text-left">
+                <div class="product-price text-center d-flex flex-wrap align-items-center gap-8">
                     @if($product->discount > 0)
                         <del class="category-single-product-price">
                             {{ webCurrencyConverter(amount: $product->unit_price) }}
                         </del>
                     @endif
-                    <span class="text-accent text-dark">
+                    <span class="text-accent text-dark singleitemprice">
                         {{ webCurrencyConverter(amount:
                             $product->unit_price-(getProductDiscount(product: $product, price: $product->unit_price))
                         ) }}
                     </span>
                 </div>
             </div>
+			 
+			<div class="shopnowbtn">
+					<a href="#" class="btnshop">Buy On EMI</a>
+			</div>
         </div>
     </div>
 </div>
