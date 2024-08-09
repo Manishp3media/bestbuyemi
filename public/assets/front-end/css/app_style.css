@@ -1,3 +1,97 @@
+.rowmasonery {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+.wrapper-product-list {
+    width: 19%;
+}
+.single-productitem {
+    background-color: transparent !important;
+    box-shadow: unset !important;
+}
+.shopnowbtn {
+    width: 51%;
+}
+.text-left a {
+    font-size: 16px !important;
+    font-weight: normal;
+    color: #323232;
+    font-family: 'Space Grotesk';
+    line-height: 30px;
+}
+.singleitemprice {
+    font-size: 14px;
+    font-weight: 500;
+    font-family: Helvetica;
+    line-height: normal;
+    padding-bottom: 17px;
+}
+.short-specification p {
+    font-size: 16px;
+	 font-weight: normal;
+    color: #323232;
+    font-family: 'Space Grotesk';
+    line-height: 30px;
+}
+.row.mt-0.g-15 {
+    gap: 15px;
+}
+/* Create four equal columns that sits next to each other */
+.column {
+  flex: 33.33%;
+  max-width: 33.33%;
+  padding: 0 4px;
+}
+.column.masonary-grid:last-child {
+    margin-top: -115px;
+}
+.column.masonary-grid:nth-child(4) {
+    margin-top: -115px;
+}
+.masonary-grid {
+    position: relative;
+}
+p.categoryname-text {
+    position: absolute;
+    top: 0px;
+    padding: 25px;
+    font-size: 22px;
+    color: #ffffff;
+    text-transform: capitalize;
+    font-weight: bold;
+    line-height: normal;
+    font-family: 'Space Grotesk';
+}
+.column img {
+  margin-top: 10px;
+  vertical-align: middle;
+  width: 100%;
+   
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s linear;
+}
+
+@media screen and (max-width: 800px) {
+  .column {
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    flex: 100%;
+    max-width: 100%;
+  }
+  .column img {
+    filter: grayscale(0) brightness(1);
+  }
+}
+
+
 .product-thumb-stickybar .productthumbnail{background-color: #ffffff;
     border-radius: 10px;
     padding: 10px;
@@ -180,7 +274,7 @@ ul.navbar-nav.menuitems li a {
 .wrapper-product-action {
     background: #F3F3F3;
     padding: 18px 0px;
-	margin-top: 100px;
+    margin-top: 100px;
 }
 .imagewithtitletext {
     gap: 25px;

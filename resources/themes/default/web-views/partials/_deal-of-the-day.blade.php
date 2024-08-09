@@ -1,7 +1,7 @@
 @if(isset($product))
     <div class="container rtl">
         <div class="row g-4 pt-2 mt-0 pb-2 __deal-of align-items-start">
-            <div class="col-xl-3 col-md-4">
+            <!--<div class="col-xl-3 col-md-4">
                 <div class="deal_of_the_day h-100 bg--light">
                     @if(isset($deal_of_the_day->product))
                         <div class="d-flex justify-content-center align-items-center py-4">
@@ -12,7 +12,7 @@
                         <div class="recommended-product-card mt-0 min-height-auto">
                             <div class="d-flex justify-content-center align-items-center __pt-20 __m-20-r">
                                 <div class="position-relative">
-                                    <img class="__rounded-top aspect-1 h-auto" alt=""
+                                    <img class="__rounded-top aspect-1 h-auto ttttt" alt=""
                                          src="{{ getStorageImages(path: $deal_of_the_day?->product?->thumbnail_full_url, type: 'product') }}">
                                     @if($deal_of_the_day->discount > 0)
                                         <span class="for-discount-value p-1 pl-2 pr-2 font-bold fs-13">
@@ -141,9 +141,9 @@
                         @endif
                     @endif
                 </div>
-            </div>
+            </div>-->
 
-            <div class="col-xl-9 col-md-8">
+            <div class="col-xl-12 col-md-12">
                 <div class="latest-product-margin">
                     <div class="d-flex justify-content-between mb-14px">
                         <div class="text-center">
@@ -160,9 +160,9 @@
                         </div>
                     </div>
 
-                    <div class="row mt-0 g-2">
+                    <div class="row mt-0 g-15">
                         @foreach($latest_products as $product)
-                            <div class="col-xl-3 col-sm-4 col-md-6 col-lg-4 col-6">
+                            <div class="wrapper-product-list">
                                 <div>
                                     @include('web-views.partials._inline-single-product',['product'=>$product,'decimal_point_settings'=>$decimal_point_settings])
                                 </div>

@@ -36,6 +36,18 @@ $(document).ready(function () {
     }
 
     getReferralCodeFromURL();
+	
+	
+	$(window).scroll(function() {    
+    // find the id with class 'active' and remove it
+    $(".wrapper-product-action").removeClass("stickybar");
+    // get the amount the window has scrolled
+    var scroll = $(window).scrollTop();
+    // add the 'active' class to the correct id based on the scroll amount
+    if (scroll <= 500) {
+        $(".wrapper-product-action").addClass("stickybar");
+    }
+});
 });
 
 toastr.options = {
